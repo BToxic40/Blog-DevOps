@@ -1,5 +1,8 @@
 package ru.learn.learnSpring.api;
 
+import lombok.Data;
+
+@Data
 public class PostParameters {
 
     /**
@@ -39,61 +42,5 @@ public class PostParameters {
         this.dateTo = dateTo;
         this.offset = offset;
         this.itemPerPage = itemPerPage;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public int getOffset() {
-        return offset;
-    }
-
-    public void setOffset(Integer offset) {
-        this.offset = offset;
-    }
-
-    public Integer getItemPerPage() {
-        return itemPerPage;
-    }
-
-    public void setItemPerPage(int itemPerPage) {
-        this.itemPerPage = itemPerPage;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public boolean isQueue() {
-        return queue;
-    }
-
-    public void setQueue(boolean queue) {
-        this.queue = queue;
-    }
-
-    public Long getDateFrom() {
-        return dateFom;
-    }
-
-    public void setDateFom(Long dateFom) {
-        this.dateFom = dateFom;
-    }
-
-    public Long getDateTo() {
-        return dateTo;
-    }
-
-    public void setDateTo(Long dateTo) {
-        this.dateTo = dateTo;
     }
 }

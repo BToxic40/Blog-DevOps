@@ -1,27 +1,17 @@
 package ru.learn.learnSpring.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.learn.learnSpring.api.response.Response;
-import ru.learn.learnSpring.service.UserService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestController
-@RequiredArgsConstructor
+@Controller
+//@RequiredArgsConstructor
 public class DefaultController {
 
+    //private final UserService userService;
 
-    private final UserService userService;
-
-    @GetMapping("/")
-    public ResponseEntity<Response> test() {
-
-//        @PathVariable int id,
-//        @RequestParam(required = false, defaultValue = "John") String name,
-//        @RequestBody User user){
-//            return userService.getUser(id);
-//        }
-        return null;
+    @RequestMapping("/")
+    public String index(Model model){
+        return "index";
     }
 }

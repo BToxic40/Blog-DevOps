@@ -1,11 +1,12 @@
 package ru.learn.learnSpring.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import ru.learn.learnSpring.api.request.PostApi;
-
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class PostListApi extends ResponseApi {
 
     private List<PostApi> data = new ArrayList<>();
@@ -16,33 +17,5 @@ public class PostListApi extends ResponseApi {
     @JsonProperty("data")
     public List<PostApi> getData() {
         return data;
-    }
-
-    public void setData(List<PostApi> data) {
-        this.data = data;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public int getOffset() {
-        return offset;
-    }
-
-    public void setOffset(int offset) {
-        this.offset = offset;
-    }
-
-    public int getPerPage() {
-        return perPage;
-    }
-
-    public void setPerPage(int perPage) {
-        this.perPage = perPage;
     }
 }
