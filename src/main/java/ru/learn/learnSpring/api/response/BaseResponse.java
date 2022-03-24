@@ -1,10 +1,11 @@
 package ru.learn.learnSpring.api.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public abstract class AbstractResponse {
 
-   @JsonIgnore
+public class BaseResponse {
+   @JsonProperty("result")
    private boolean isSuccess;
 
    @JsonIgnore
@@ -12,7 +13,11 @@ public abstract class AbstractResponse {
       return isSuccess;
    }
 
-   public void setSuccess(boolean success) {
-      isSuccess = success;
+   public void success(){
+      isSuccess = true;
+   }
+
+   public void fail(){
+      isSuccess = false;
    }
 }
