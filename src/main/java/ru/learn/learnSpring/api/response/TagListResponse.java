@@ -8,7 +8,7 @@ import java.util.List;
 public class TagListResponse {
 
     private int query;
-    private List<TagResponse> tagResponses;
+    private List<TagResponse> tags;
 
     public int getQuery() {
         return query;
@@ -18,11 +18,11 @@ public class TagListResponse {
         this.query = query;
     }
 
-    public List<TagResponse> getTagResponses() {
-        return tagResponses;
+    public List<TagResponse> getTags() {
+        return tags;
     }
 
-    public void setTagResponses(List<TagResponse> tagResponses) {
-        this.tagResponses = tagResponses;
+    public void setTags(List<TagResponse> tags) {
+        this.tags = tags;
     }
 }

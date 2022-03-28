@@ -49,15 +49,12 @@ public class Posts {
     private int viewCount;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    @OrderBy("time asc")
     private List<PostVotes> postVotes;
 
     @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY)
-    @OrderBy("time asc")
     private List<PostComments> postComments;
 
     @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY)
-    @OrderBy("time asc")
     private List<Tags> tags;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})

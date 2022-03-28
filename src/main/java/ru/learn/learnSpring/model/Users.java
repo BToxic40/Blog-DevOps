@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -43,6 +44,15 @@ public class Users {
 
     @Column(name = "photo")
     private String photo;
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private List<PostVotes> postVotes;
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private List<PostComments> postComments;
+
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private List<Posts> posts;
 
     public int getId() {
         return id;
@@ -106,5 +116,29 @@ public class Users {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public List<PostVotes> getPostVotes() {
+        return postVotes;
+    }
+
+    public void setPostVotes(List<PostVotes> postVotes) {
+        this.postVotes = postVotes;
+    }
+
+    public List<PostComments> getPostComments() {
+        return postComments;
+    }
+
+    public void setPostComments(List<PostComments> postComments) {
+        this.postComments = postComments;
+    }
+
+    public List<Posts> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Posts> posts) {
+        this.posts = posts;
     }
 }

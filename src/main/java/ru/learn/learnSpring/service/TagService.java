@@ -16,7 +16,7 @@ public class TagService {
 
         List<TagResponse> tagListResponses = new ArrayList<>();
         tagListResponses.add(new TagResponse());
-        tagList.setTagResponses(tagListResponses);
+        tagList.setTags(tagListResponses);
          return tagList;
     }
 }
