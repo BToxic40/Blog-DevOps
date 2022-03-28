@@ -1,14 +1,12 @@
 package ru.learn.learnSpring.model;
 
 import com.sun.istack.NotNull;
-import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
-@Data
 @Entity
 @Table(name = "post_comments")
 public class PostComments {
@@ -19,12 +17,8 @@ public class PostComments {
     @NotNull
     private int id;
 
-    @OneToMany(mappedBy = "parent_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<PostComments> postComments;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "parent_id")
-    private PostComments parent_id = null;
+    @Column(name = "parent_id")
+    private Integer parent_id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
@@ -44,4 +38,51 @@ public class PostComments {
     @Column(name = "text")
     private String text;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Integer getParent_id() {
+        return parent_id;
+    }
+
+    public void setParent_id(Integer parent_id) {
+        this.parent_id = parent_id;
+    }
+
+    public Posts getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Posts posts) {
+        this.posts = posts;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }

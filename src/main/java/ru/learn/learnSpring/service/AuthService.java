@@ -23,7 +23,6 @@ public class AuthService {
             checkResponse.setUser(user);
             return checkResponse;
         }
-
         return new CheckResponse();
     }
 }

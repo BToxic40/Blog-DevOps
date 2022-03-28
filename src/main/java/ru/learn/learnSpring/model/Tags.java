@@ -3,10 +3,11 @@ package ru.learn.learnSpring.model;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "global_settings")
-public class GlobalSettings {
+@Table(name = "tags")
+public class Tags {
 
     @Id
     @Column(name = "id")
@@ -14,17 +15,18 @@ public class GlobalSettings {
     @NotNull
     private int id;
 
-    @Column(name = "code")
-    @NotNull
-    private String code;
-
     @Column(name = "name")
     @NotNull
     private String name;
 
-    @Column(name = "value")
-    @NotNull
-    private String value;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinTable(name = "tag2post",
+            joinColumns = @JoinColumn(name = "tag_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private List<Posts> posts;
+
+    public Tags() {
+    }
 
     public int getId() {
         return id;
@@ -32,14 +34,6 @@ public class GlobalSettings {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getName() {
@@ -50,11 +44,11 @@ public class GlobalSettings {
         this.name = name;
     }
 
-    public String getValue() {
-        return value;
+    public List<Posts> getPosts() {
+        return posts;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setPosts(List<Posts> posts) {
+        this.posts = posts;
     }
 }
