@@ -3,13 +3,9 @@ package ru.learn.learnSpring.api.response;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @RequiredArgsConstructor
-public  class Response{
-    private final UserResponse user = new UserResponse();
-    private final List<UserResponse> users = List.of();
+public class UserPostResponse {
     private final int id;
     private final String name;
 }

@@ -1,11 +1,17 @@
 package ru.learn.learnSpring.model;
 
 import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "tags")
 public class Tags {
 
@@ -25,30 +31,5 @@ public class Tags {
             inverseJoinColumns = @JoinColumn(name = "post_id"))
     private List<Posts> posts;
 
-    public Tags() {
-    }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Posts> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Posts> posts) {
-        this.posts = posts;
-    }
 }

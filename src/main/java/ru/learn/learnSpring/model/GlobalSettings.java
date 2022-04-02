@@ -1,10 +1,16 @@
 package ru.learn.learnSpring.model;
 
 import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "global_settings")
 public class GlobalSettings {
 
@@ -26,35 +32,4 @@ public class GlobalSettings {
     @NotNull
     private String value;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
 }

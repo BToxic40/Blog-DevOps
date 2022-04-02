@@ -10,12 +10,21 @@ import java.util.List;
 @Service
 public class TagService {
 
-    public TagListResponse getTag() {
-        TagListResponse tagList = new TagListResponse();
-         tagList.setQuery(10);
+    public TagListResponse getTagList(String searchQuery) {
+        TagResponse tagResponse = new TagResponse();
+        tagResponse.setName("tags");
+        tagResponse.setWeight(0.7);
+
+        TagResponse tagResponse2 = new TagResponse();
+        tagResponse2.setName("Java");
+        tagResponse2.setWeight(0.2);
 
         List<TagResponse> tagListResponses = new ArrayList<>();
-        tagListResponses.add(new TagResponse());
+        tagListResponses.add(tagResponse);
+        tagListResponses.add(tagResponse2);
+
+
+        TagListResponse tagList = new TagListResponse();
         tagList.setTags(tagListResponses);
          return tagList;
     }

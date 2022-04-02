@@ -1,5 +1,6 @@
 package ru.learn.learnSpring.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +18,8 @@ public class ApiAuthController {
     }
 
     @GetMapping("/check")
-    public CheckResponse checkUserAuth() {
-        return authService.check();
+    public ResponseEntity<CheckResponse> checkUserAuth() {
+        return ResponseEntity.ok(authService.check());
     }
 }
 

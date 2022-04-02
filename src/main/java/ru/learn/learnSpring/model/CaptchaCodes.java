@@ -1,11 +1,17 @@
 package ru.learn.learnSpring.model;
 
 import com.sun.istack.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "captcha_codes")
 public class CaptchaCodes {
 
@@ -31,43 +37,4 @@ public class CaptchaCodes {
     @NotNull
     private String secretCode;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getSecretCode() {
-        return secretCode;
-    }
-
-    public void setSecretCode(String secretCode) {
-        this.secretCode = secretCode;
-    }
 }
