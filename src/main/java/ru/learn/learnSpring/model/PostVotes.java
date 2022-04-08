@@ -24,12 +24,12 @@ public class PostVotes {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @NotNull
-    private Users users;
+    private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     @NotNull
-    private Posts post;
+    private Post post;
 
     @Column(name = "time")
     @NotNull

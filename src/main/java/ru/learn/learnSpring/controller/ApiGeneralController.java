@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.learn.learnSpring.api.response.CalendarDaysResponse;
-import ru.learn.learnSpring.api.response.InitResponse;
-import ru.learn.learnSpring.api.response.SettingsResponse;
+import ru.learn.learnSpring.api.response.*;
 import ru.learn.learnSpring.service.CalendarService;
 import ru.learn.learnSpring.service.SettingsService;
 
@@ -39,4 +37,5 @@ public class ApiGeneralController {
     public ResponseEntity<CalendarDaysResponse> calendar(@RequestParam (required = false) String year){
         return ResponseEntity.ok(calendarService.calendarDaysResponse(year));
     }
+
 }

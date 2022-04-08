@@ -11,7 +11,6 @@ import java.util.List;
 @Component
 public class TagListResponse {
 
-//    private int query;
     private List<TagResponse> tags;
 
 }

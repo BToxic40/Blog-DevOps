@@ -30,12 +30,12 @@ public class PostComments {
     @JoinColumn(name = "post_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
-    private Posts posts;
+    private Post post;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @NotNull
-    private Users users;
+    private User user;
 
     @Column(name = "time")
     @NotNull

@@ -29,7 +29,7 @@ public class Tags {
     @JoinTable(name = "tag2post",
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id"))
-    private List<Posts> posts;
+    private List<Post> posts;
 
 
 }

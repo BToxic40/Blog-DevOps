@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Table(name = "posts")
-public class Posts {
+public class Post {
 
     @Id
     @Column(name = "id")
@@ -36,7 +36,7 @@ public class Posts {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @NotNull
-    private Users users;
+    private User user;
 
     @Column(name = "time")
     @NotNull
@@ -46,7 +46,7 @@ public class Posts {
     @NotNull
     private String title;
 
-    @Column(name = "text")
+    @Column(name = "text", columnDefinition = "MEDIUMTEXT")
     @NotNull
     private String text;
 
@@ -57,7 +57,7 @@ public class Posts {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<PostVotes> postVotes;
 
-    @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<PostComments> postComments;
 
     @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY)

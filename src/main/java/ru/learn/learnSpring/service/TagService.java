@@ -17,7 +17,7 @@ public class TagService {
 
         TagResponse tagResponse2 = new TagResponse();
         tagResponse2.setName("Java");
-        tagResponse2.setWeight(0.2);
+        tagResponse2.setWeight(0.5);
 
         List<TagResponse> tagListResponses = new ArrayList<>();
         tagListResponses.add(tagResponse);

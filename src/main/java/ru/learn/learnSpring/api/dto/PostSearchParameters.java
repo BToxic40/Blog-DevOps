@@ -8,5 +8,7 @@ public class PostSearchParameters {
     private int offset;
     private int limit;
     private String query;
+    private String date;
+    private String tag;
 
 }

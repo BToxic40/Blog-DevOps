@@ -1,17 +1,15 @@
 package ru.learn.learnSpring.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.learn.learnSpring.api.dto.PostSearchParameters;
 import ru.learn.learnSpring.api.response.PostListResponse;
+import ru.learn.learnSpring.api.response.singlePost.SinglePostResponse;
 import ru.learn.learnSpring.service.PostService;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/post")
 public class ApiPostController {
 
     private final PostService postService;
@@ -20,14 +18,14 @@ public class ApiPostController {
         this.postService = postService;
     }
 
-    @GetMapping("/post")
+    @GetMapping("")
     public ResponseEntity<PostListResponse> postListResponse(@RequestParam(required = false, defaultValue = "recent") String mode,
                                                               @RequestParam(required = false, defaultValue = "0") int offset,
                                                               @RequestParam(required = false, defaultValue = "10") int limit){
         return ResponseEntity.ok(postService.postList(mode, offset, limit));
     }
 
-    @GetMapping("/post/search")
+    @GetMapping("/search")
     public ResponseEntity<PostListResponse> searchPosts(@RequestParam String query,
                                                         @RequestParam(required = false, defaultValue = "0") int offset,
                                                         @RequestParam(required = false, defaultValue = "10") int limit) {
@@ -38,4 +36,30 @@ public class ApiPostController {
         return ResponseEntity.ok(postService.search(postSearchParameters));
     }
 
+    @GetMapping("/byDate")
+    public ResponseEntity<PostListResponse> postByDate(@RequestParam String date,
+                                                       @RequestParam(required = false, defaultValue = "0") int offset,
+                                                       @RequestParam(required = false, defaultValue = "10") int limit) {
+        PostSearchParameters postSearchByDate = new PostSearchParameters();
+        postSearchByDate.setDate(date);
+        postSearchByDate.setOffset(offset);
+        postSearchByDate.setLimit(limit);
+        return ResponseEntity.ok(postService.byDate(date, offset, limit));
+    }
+
+    @GetMapping("/byTag")
+    public ResponseEntity<PostListResponse> postByTag(@RequestParam String tag,
+                                                       @RequestParam(required = false, defaultValue = "0") int offset,
+                                                       @RequestParam(required = false, defaultValue = "10") int limit) {
+        PostSearchParameters postSearchByTag = new PostSearchParameters();
+        postSearchByTag.setTag(tag);
+        postSearchByTag.setOffset(offset);
+        postSearchByTag.setLimit(limit);
+        return ResponseEntity.ok(postService.byDate(tag, offset, limit));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SinglePostResponse> getPostById(@PathVariable int id) {
+        return ResponseEntity.ok(postService.byId(id));
+    }
 }

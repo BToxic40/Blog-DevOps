@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "users")
-public class Users {
+public class User {
 
 
     @Id
@@ -47,13 +47,13 @@ public class Users {
     @Column(name = "photo")
     private String photo;
 
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<PostVotes> postVotes;
 
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<PostComments> postComments;
 
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
-    private List<Posts> posts;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Post> posts;
 
 }
