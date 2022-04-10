@@ -22,11 +22,11 @@ public class Post {
     @NotNull
     private int id;
 
-    @Column(name = "is_active")
+    @Column(name = "is_active", columnDefinition = "TINYINT")
     @NotNull
     private String isActive;
 
-    @Column(name = "moderation_status")
+    @Column(name = "moderation_status", columnDefinition = "ENUM")
     @NotNull
     private String moderationStatus;
 
@@ -38,7 +38,7 @@ public class Post {
     @NotNull
     private User user;
 
-    @Column(name = "time")
+    @Column(name = "time", columnDefinition = "DATETIME")
     @NotNull
     private Date time;
 

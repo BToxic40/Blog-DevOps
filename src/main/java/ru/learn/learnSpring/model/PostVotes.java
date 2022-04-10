@@ -31,11 +31,11 @@ public class PostVotes {
     @NotNull
     private Post post;
 
-    @Column(name = "time")
+    @Column(name = "time", columnDefinition = "DATETIME")
     @NotNull
     private Date time;
 
-    @Column(name = "value")
+    @Column(name = "value", columnDefinition = "TINYINT")
     @NotNull
     private int value;
 

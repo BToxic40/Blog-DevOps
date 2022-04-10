@@ -25,15 +25,15 @@ public class CaptchaCodes {
     @NotNull
     private String name;
 
-    @Column(name = "time")
+    @Column(name = "time", columnDefinition = "DATETIME")
     @NotNull
     private Date time;
 
-    @Column(name = "code")
+    @Column(name = "code", columnDefinition = "TINYTEXT")
     @NotNull
     private String code;
 
-    @Column(name = "secret_code")
+    @Column(name = "secret_code", columnDefinition = "TINYTEXT")
     @NotNull
     private String secretCode;
 

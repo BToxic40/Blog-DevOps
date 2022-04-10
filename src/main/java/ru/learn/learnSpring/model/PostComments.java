@@ -37,11 +37,11 @@ public class PostComments {
     @NotNull
     private User user;
 
-    @Column(name = "time")
+    @Column(name = "time", columnDefinition = "DATETIME")
     @NotNull
     private Date time;
 
-    @Column(name = "text")
+    @Column(name = "text", columnDefinition = "MEDIUMTEXT")
     private String text;
 
 }
