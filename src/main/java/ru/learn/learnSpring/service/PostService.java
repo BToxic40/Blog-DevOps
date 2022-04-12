@@ -2,6 +2,9 @@ package ru.learn.learnSpring.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.learn.learnSpring.api.dto.PostSearchParameters;
 import ru.learn.learnSpring.api.response.PostListResponse;
@@ -10,8 +13,8 @@ import ru.learn.learnSpring.api.response.postPreview.UserResponse;
 import ru.learn.learnSpring.api.response.singlePost.CommentResponse;
 import ru.learn.learnSpring.api.response.singlePost.SinglePostResponse;
 import ru.learn.learnSpring.api.response.singlePost.UserCommentResponse;
-import ru.learn.learnSpring.dao.PostRepository;
 import ru.learn.learnSpring.model.Post;
+import ru.learn.learnSpring.model.repository.PostRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +28,24 @@ public class PostService {
 
 
     public PostListResponse postList(String mode, int offset, int limit) {
-        List<Post> allPosts = postRepository.findAll();
+
+
+        // номер страницы
+        // 100, 10 = десять первых постов, страница 10
+        // 0, 10 = десять первых постов, страница 1
+
+
+
+        Pageable pageable = PageRequest.of(1, 10 );
+
+        Page<Post> page = postRepository.findAll(pageable);
+        page.getTotalElements();
+        page.getTotalPages();
+
+        List<Post> allPosts = page.getContent();
 
         PostListResponse postListResponse = new PostListResponse();
-        postListResponse.setCount(allPosts.size());
+        postListResponse.setCount(page.getTotalElements());
 
         List<PostPreviewResponse> postPreviewResponseList = new ArrayList<>();
         for (Post post: allPosts) {
@@ -47,7 +64,7 @@ public class PostService {
         postPreviewResponse.setId(post.getId());
         postPreviewResponse.setAnnounce(createAnnounce(post.getText()));
         postPreviewResponse.setLikeCount(5); // TODO: получить из таблицы лайков
-        postPreviewResponse.setUser(new UserResponse(post.getUser().getId(), post.getUser().getName()));
+//        postPreviewResponse.setUser(new UserResponse(post.getUser().getId(), post.getUser().getName()));
       return postPreviewResponse;
     }
 

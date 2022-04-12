@@ -13,8 +13,5 @@ public class  UserResponse extends BaseResponse {
   private int id;
   private String name;
 
-//  private String email;
-//  private types type;
-//  public enum types {MODERATOR, ADMIN}
 
 }

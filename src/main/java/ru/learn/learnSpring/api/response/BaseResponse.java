@@ -5,8 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class BaseResponse {
+   public static final BaseResponse successResponse = new BaseResponse(true);
+
+   public BaseResponse(boolean isSuccess) {
+      this.isSuccess = isSuccess;
+   }
+
+   public BaseResponse() {
+   }
+
    @JsonProperty("result")
-   private boolean isSuccess;
+   protected boolean isSuccess;
 
    @JsonIgnore
    public boolean isSuccess() {

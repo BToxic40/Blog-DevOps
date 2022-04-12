@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 public class PostListResponse {
 
-    private int count;
+    private long count;
     private List<PostPreviewResponse> posts;
 
 }

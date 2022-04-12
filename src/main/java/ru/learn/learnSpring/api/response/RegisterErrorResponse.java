@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class RegisterResponse {
+public class RegisterErrorResponse {
     private String e_mail;
     private String password;
     private String name;

@@ -1,12 +1,10 @@
 package ru.learn.learnSpring.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.learn.learnSpring.api.response.CaptchaResponse;
-import ru.learn.learnSpring.api.response.CheckResponse;
-import ru.learn.learnSpring.api.response.RegisterResponse;
+import org.springframework.web.bind.annotation.*;
+import ru.learn.learnSpring.api.request.LoginRequest;
+import ru.learn.learnSpring.api.request.RegistrationRequest;
+import ru.learn.learnSpring.api.response.*;
 import ru.learn.learnSpring.service.AuthService;
 
 @RestController
@@ -29,9 +27,14 @@ public class ApiAuthController {
         return ResponseEntity.ok(authService.captcha());
     }
 
-    @GetMapping("/register")
-    public ResponseEntity<RegisterResponse> registration() {
-        return ResponseEntity.ok(authService.register());
+    @PostMapping("/register")
+    public ResponseEntity<BaseResponse> registration(@RequestBody RegistrationRequest request) {
+        return ResponseEntity.ok(authService.register(request));
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(new LoginResponse());
     }
 }
 

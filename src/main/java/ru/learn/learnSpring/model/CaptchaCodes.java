@@ -21,10 +21,6 @@ public class CaptchaCodes {
     @NotNull
     private int id;
 
-    @Column(name = "name")
-    @NotNull
-    private String name;
-
     @Column(name = "time", columnDefinition = "DATETIME")
     @NotNull
     private Date time;

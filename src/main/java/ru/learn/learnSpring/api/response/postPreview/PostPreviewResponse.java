@@ -10,8 +10,6 @@ public class PostPreviewResponse {
     private int id;
     private long timestamp;
     private UserResponse user;
-    //private UserResponse userResponse;
-    //private TagListResponse tags;
     private String title;
     private String announce;
     private int likeCount;

@@ -26,9 +26,11 @@ public class Post {
     @NotNull
     private String isActive;
 
-    @Column(name = "moderation_status", columnDefinition = "ENUM")
+//    @Column(name = "moderation_status", columnDefinition = "ENUM")
+    @Column(name = "moderation_status")
+    @Enumerated(EnumType.STRING)
     @NotNull
-    private String moderationStatus;
+    private ModerationStatus moderationStatus;
 
     @Column(name = "moderator_id")
     private int moderatorId;

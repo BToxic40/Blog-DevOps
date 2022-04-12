@@ -3,12 +3,15 @@ package ru.learn.learnSpring.api.response;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Map;
+
 @Getter
 @Setter
 public class ErrorResponse extends BaseResponse{
-    private String error;
+    private Map<String, String> errors;
 
-    public ErrorResponse(String error) {
-        this.error = error;
+    public ErrorResponse(Map<String, String> errors) {
+        this.errors = errors;
+        this.isSuccess = false;
     }
 }
