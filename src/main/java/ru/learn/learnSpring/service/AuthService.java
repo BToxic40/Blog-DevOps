@@ -1,14 +1,19 @@
 package ru.learn.learnSpring.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.learn.learnSpring.api.request.RegistrationRequest;
 import ru.learn.learnSpring.api.response.*;
+import ru.learn.learnSpring.model.repository.UserRepository;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class AuthService {
+
+    @Autowired
+    private UserRepository userRepository;
 
     public CheckResponse check() {
         boolean auth = false;
@@ -49,13 +54,21 @@ public class AuthService {
            return new ErrorResponse(errors);
         }
 
+//        String userEmail = request.getEmail();
+//        if(EmailValidator.isValid(userEmail)) {
+//
+//            Optional<User> user = userRepository.findByEmail(userEmail);
+//            if (user == null) {
+//
+//                user = Optional.of(new User());
+//
+//            }
+//        }
+
         // сохраняем пользователя в базу данных
 
         return BaseResponse.successResponse;
 
-
-
-//        boolean authorisation = true;
         // 1. проверить каптчу, валидина ли она
         // 2. проверить валидность email
         // 3. проверить что такой email незареган

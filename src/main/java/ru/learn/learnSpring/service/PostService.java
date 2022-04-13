@@ -64,7 +64,7 @@ public class PostService {
         postPreviewResponse.setId(post.getId());
         postPreviewResponse.setAnnounce(createAnnounce(post.getText()));
         postPreviewResponse.setLikeCount(5); // TODO: получить из таблицы лайков
-//        postPreviewResponse.setUser(new UserResponse(post.getUser().getId(), post.getUser().getName()));
+        postPreviewResponse.setUser(new UserResponse(post.getUser().getId(), post.getUser().getName()));
       return postPreviewResponse;
     }
 
@@ -85,7 +85,6 @@ public class PostService {
             postPreviewResponseList.add(previewResponse);
         }
 
-        //List<PostPreviewResponse> postPreviewResponseList = new ArrayList<>();
         postPreviewResponseList.add(new PostPreviewResponse());
         postListResponse.setPosts(postPreviewResponseList);
         log.info(postSearchParameters.toString());

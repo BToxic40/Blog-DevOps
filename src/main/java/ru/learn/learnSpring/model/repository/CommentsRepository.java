@@ -22,8 +22,8 @@ public interface CommentsRepository extends JpaRepository<PostComments, Integer>
     @Override
     <S extends PostComments> List<S> saveAll(Iterable<S> entities);
 
-    @Override
-    <S extends PostComments> List<S> saveAllAndFlush(Iterable<S> entities);
+//    @Override
+//    <S extends PostComments> List<S> saveAllAndFlush(Iterable<S> entities);
 
     @Override
     List<PostComments> findAllById(Iterable<Integer> integers);

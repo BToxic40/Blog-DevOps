@@ -1,6 +1,7 @@
 package ru.learn.learnSpring.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.learn.learnSpring.api.dto.PostSearchParameters;
 import ru.learn.learnSpring.api.response.PostListResponse;
@@ -19,6 +20,7 @@ public class ApiPostController {
     }
 
     @GetMapping("")
+    @PreAuthorize("hasAuthority('user:write')")
     public ResponseEntity<PostListResponse> postListResponse(@RequestParam(required = false, defaultValue = "recent") String mode,
                                                               @RequestParam(required = false, defaultValue = "0") int offset,
                                                               @RequestParam(required = false, defaultValue = "10") int limit){
@@ -26,6 +28,7 @@ public class ApiPostController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAuthority('user:moderate')")
     public ResponseEntity<PostListResponse> searchPosts(@RequestParam String query,
                                                         @RequestParam(required = false, defaultValue = "0") int offset,
                                                         @RequestParam(required = false, defaultValue = "10") int limit) {

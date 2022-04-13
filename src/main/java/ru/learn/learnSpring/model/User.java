@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -23,11 +23,11 @@ public class User {
 
     @Column(name = "is_moderator", columnDefinition = "TINYINT")
     @NotNull
-    private String isModerator;
+    private int isModerator;
 
     @Column(name = "reg_time", columnDefinition = "DATETIME")
     @NotNull
-    private Date regTime;
+    private LocalDate regTime;
 
     @Column(name = "name")
     @NotNull
@@ -56,8 +56,8 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Post> posts;
 
-//    private Role getRole() {
-//        return isModerator == 1 ? Role.MODERATOR : Role.USER;
-//    }
+    public Role getRole() {
+        return isModerator == 1 ? Role.MODERATOR : Role.USER;
+    }
 
 }
