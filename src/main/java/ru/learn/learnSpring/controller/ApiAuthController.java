@@ -62,6 +62,7 @@ public class ApiAuthController {
         loginResponse.setResult(true);
         loginResponse.setUserLoginResponse(userResponse);
         return ResponseEntity.ok(loginResponse);
+
     }
 }
 

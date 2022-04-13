@@ -1,10 +1,8 @@
 package ru.learn.learnSpring.api.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class UserCheckResponse {
     private int id;
     private String name;

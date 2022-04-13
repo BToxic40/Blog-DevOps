@@ -1,4 +1,4 @@
-package ru.learn.learnSpring.Security;
+package ru.learn.learnSpring.security;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,7 +19,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override

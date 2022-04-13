@@ -1,4 +1,4 @@
-package ru.learn.learnSpring.Security;
+package ru.learn.learnSpring.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
