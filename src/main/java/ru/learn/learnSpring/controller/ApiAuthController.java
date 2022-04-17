@@ -11,9 +11,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ru.learn.learnSpring.api.request.LoginRequest;
 import ru.learn.learnSpring.api.request.RegistrationRequest;
-import ru.learn.learnSpring.api.response.*;
+import ru.learn.learnSpring.api.response.BaseResponse;
+import ru.learn.learnSpring.api.response.CaptchaResponse;
+import ru.learn.learnSpring.api.response.LoginResponse;
+import ru.learn.learnSpring.api.response.UserCheckResponse;
 import ru.learn.learnSpring.model.repository.UserRepository;
 import ru.learn.learnSpring.service.AuthService;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -30,10 +35,10 @@ public class ApiAuthController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/check")
-    public ResponseEntity<CheckResponse> checkUserAuth() {
-        return ResponseEntity.ok(authService.check());
-    }
+//    @GetMapping("/check")
+//    public ResponseEntity<CheckResponse> checkUserAuth() {
+//        return ResponseEntity.ok(authService.check());
+//    }
 
     @GetMapping("/captcha")
     public ResponseEntity<CaptchaResponse> checkCaptcha() {
@@ -51,7 +56,20 @@ public class ApiAuthController {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(auth);
         User user = (User) auth.getPrincipal();
-        ru.learn.learnSpring.model.User currentUser= userRepository.findByEmail(user.getUsername()).orElseThrow(() -> new UsernameNotFoundException(user.getUsername()));
+
+        return ResponseEntity.ok(getLoginResponse(user.getUsername()));
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<LoginResponse> check(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.ok(new LoginResponse());
+        }
+        return ResponseEntity.ok(getLoginResponse(principal.getName()));
+    }
+
+    private LoginResponse getLoginResponse(String email) {
+        ru.learn.learnSpring.model.User currentUser = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
 
         UserCheckResponse userResponse = new UserCheckResponse();
         userResponse.setEmail(currentUser.getEmail());
@@ -61,8 +79,7 @@ public class ApiAuthController {
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setResult(true);
         loginResponse.setUserLoginResponse(userResponse);
-        return ResponseEntity.ok(loginResponse);
-
+        return loginResponse;
     }
 }
 

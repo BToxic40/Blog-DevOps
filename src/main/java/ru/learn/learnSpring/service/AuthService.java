@@ -1,38 +1,50 @@
 package ru.learn.learnSpring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.learn.learnSpring.api.request.RegistrationRequest;
-import ru.learn.learnSpring.api.response.*;
+import ru.learn.learnSpring.api.response.BaseResponse;
+import ru.learn.learnSpring.api.response.CaptchaResponse;
+import ru.learn.learnSpring.api.response.ErrorResponse;
+import ru.learn.learnSpring.model.User;
 import ru.learn.learnSpring.model.repository.UserRepository;
+import ru.learn.learnSpring.utils.EmailValidator;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class AuthService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public CheckResponse check() {
-        boolean auth = false;
+    private BCryptPasswordEncoder encoder;
 
-        if (auth) {
-            // лезем в репозиторий и получаем пользователя
-            UserCheckResponse user = new UserCheckResponse();
-            user.setEmail("sdfsdf");
-            user.setId(34);
-            user.setName("For");
-
-            //заполняем ответ для контроллера
-            CheckResponse checkResponse = new CheckResponse();
-            checkResponse.success();
-            checkResponse.setUser(user);
-            return checkResponse;
-        }
-        return new CheckResponse();
+    public AuthService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
+
+//    public CheckResponse check() {
+//        boolean auth = false;
+//
+//        if (auth) {
+//            // лезем в репозиторий и получаем пользователя
+//            UserCheckResponse user = new UserCheckResponse();
+//            user.setEmail("sdfsdf");
+//            user.setId(34);
+//            user.setName("For");
+//
+//            //заполняем ответ для контроллера
+//            CheckResponse checkResponse = new CheckResponse();
+//            checkResponse.success();
+//            checkResponse.setUser(user);
+//            return checkResponse;
+//        }
+//        return new CheckResponse();
+//    }
 
     public CaptchaResponse captcha() {
         CaptchaResponse captcha = new CaptchaResponse();
@@ -44,28 +56,39 @@ public class AuthService {
     public BaseResponse register(RegistrationRequest request) {
 
         Map<String, String> errors = new HashMap<>();
-
+        User userForReg = new User();
+        String userEmail = request.getEmail();
+        String name = request.getName();
+//        String passError = request.getPassword1();
         String captchaError = isCaptchaValid(request);
-        if (!captchaError.isEmpty()){
+
+        if (!captchaError.isEmpty()) {
             errors.put("captcha", captchaError);
         }
-
-        if(!errors.isEmpty()){
-           return new ErrorResponse(errors);
+        if (EmailValidator.isValid(userEmail)) {
+            Optional<User> user = userRepository.findByEmail(userEmail);
+            if (user.isPresent()) {
+                errors.put("такой  пользователь уже существует", userEmail);
+            }
+            if (user.isEmpty()) {
+                userForReg.setName(request.getName());
+                if (name.length() > 20) {
+                    errors.put("Имя не должно превышать 20 символов", name);
+                }
+                userForReg.setEmail(request.getEmail());
+//                if (passError.length() < 6){
+//                    errors.put("Пароль не меньше шести символов", passError);
+//                }
+                if (request.getPassword1().equals(request.getPassword2())) {
+                    String encodedPassword = encoder.encode(request.getPassword1());
+                    userForReg.setPassword(encodedPassword);
+                }
+            }
+            if (!errors.isEmpty()) {
+                return new ErrorResponse(errors);
+            }
+            userRepository.save(userForReg);
         }
-
-//        String userEmail = request.getEmail();
-//        if(EmailValidator.isValid(userEmail)) {
-//
-//            Optional<User> user = userRepository.findByEmail(userEmail);
-//            if (user == null) {
-//
-//                user = Optional.of(new User());
-//
-//            }
-//        }
-
-        // сохраняем пользователя в базу данных
 
         return BaseResponse.successResponse;
 
@@ -77,11 +100,12 @@ public class AuthService {
 
     }
 
-    String isCaptchaValid(RegistrationRequest request){
+    String isCaptchaValid(RegistrationRequest request) {
+
         // обратится в бд, получить каптчу по secret_code -> если каптчи нет, то вернуть "Каптча просрочена, обновите страницу"
         // проверить, протухла ли капча -> если время сейчас минус время создания каптчи больше 1 час -> , то вернуть "Каптча просрочена, обновите страницу"
         // проверить что введенная строка пользователем соответствует значению в ячейке code -> то вернуть "Код с картинки введён неверно"
-        if (!request.getUserInputCaptcha().equals("123")){
+        if (!request.getUserInputCaptcha().equals("123")) {
             return "Каптча просрочена, обновите страницу";
         }
 

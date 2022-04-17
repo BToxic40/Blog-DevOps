@@ -2,8 +2,9 @@ package ru.learn.learnSpring.api.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Setter;
 
-
+@Setter
 public class BaseResponse {
    public static final BaseResponse successResponse = new BaseResponse(true);
 

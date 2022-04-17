@@ -11,7 +11,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-
     Optional<User> findByEmail(String email);
 
     @Override
@@ -20,5 +19,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Override
     List<User> findAllById(Iterable<Integer> integers);
 
+    @Override
+    <S extends User> List<S> saveAll(Iterable<S> iterable);
 
 }

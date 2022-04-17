@@ -11,7 +11,9 @@ public class RegistrationRequest {
     @JsonProperty("e_mail")
     private String email;
 
-    private String password;
+    private String password1;
+
+    private String password2;
 
     private String name;
 
