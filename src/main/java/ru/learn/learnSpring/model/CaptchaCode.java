@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @Table(name = "captcha_codes")
-public class CaptchaCodes {
+public class CaptchaCode {
 
     @Id
     @Column(name = "id")

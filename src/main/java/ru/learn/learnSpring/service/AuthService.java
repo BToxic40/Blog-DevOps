@@ -1,31 +1,33 @@
 package ru.learn.learnSpring.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.learn.learnSpring.api.request.RegistrationRequest;
 import ru.learn.learnSpring.api.response.BaseResponse;
 import ru.learn.learnSpring.api.response.CaptchaResponse;
 import ru.learn.learnSpring.api.response.ErrorResponse;
+import ru.learn.learnSpring.model.CaptchaCode;
 import ru.learn.learnSpring.model.User;
+import ru.learn.learnSpring.model.repository.CaptchaRepository;
 import ru.learn.learnSpring.model.repository.UserRepository;
 import ru.learn.learnSpring.utils.EmailValidator;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
-    @Autowired
+    private final CaptchaRepository captchaRepository;
+    private final CaptchaService captchaService;
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
-    private BCryptPasswordEncoder encoder;
 
-    public AuthService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
 //    public CheckResponse check() {
 //        boolean auth = false;
@@ -54,61 +56,73 @@ public class AuthService {
     }
 
     public BaseResponse register(RegistrationRequest request) {
+        Map<String, String> errors = collectErrors(request);
 
-        Map<String, String> errors = new HashMap<>();
-        User userForReg = new User();
-        String userEmail = request.getEmail();
-        String name = request.getName();
-//        String passError = request.getPassword1();
-        String captchaError = isCaptchaValid(request);
+        if (!errors.isEmpty()) {
+            return new ErrorResponse(errors);
+        }
 
-        if (!captchaError.isEmpty()) {
-            errors.put("captcha", captchaError);
-        }
-        if (EmailValidator.isValid(userEmail)) {
-            Optional<User> user = userRepository.findByEmail(userEmail);
-            if (user.isPresent()) {
-                errors.put("такой  пользователь уже существует", userEmail);
-            }
-            if (user.isEmpty()) {
-                userForReg.setName(request.getName());
-                if (name.length() > 20) {
-                    errors.put("Имя не должно превышать 20 символов", name);
-                }
-                userForReg.setEmail(request.getEmail());
-//                if (passError.length() < 6){
-//                    errors.put("Пароль не меньше шести символов", passError);
-//                }
-                if (request.getPassword1().equals(request.getPassword2())) {
-                    String encodedPassword = encoder.encode(request.getPassword1());
-                    userForReg.setPassword(encodedPassword);
-                }
-            }
-            if (!errors.isEmpty()) {
-                return new ErrorResponse(errors);
-            }
-            userRepository.save(userForReg);
-        }
+        User userForReg = createUser(request);
+        userRepository.save(userForReg);
 
         return BaseResponse.successResponse;
-
-        // 1. проверить каптчу, валидина ли она
-        // 2. проверить валидность email
-        // 3. проверить что такой email незареган
-        // 4. проверить длину пароля
-        // 5. имя пользователя не должно превышать 20 символов
-
     }
 
-    String isCaptchaValid(RegistrationRequest request) {
+    private Map<String, String> collectErrors(RegistrationRequest request){
+        Map<String, String> errors = new HashMap<>();
+        if (!isCaptchaValid(request)) {
+            errors.put("captcha", "Код с картинки введён неверно");
+        }
+
+        if (!EmailValidator.isValid(request.getEmail())) {
+            errors.put("email", "Неверный формат email");
+        }
+
+        if (request.getPassword().length() < 6) {
+            errors.put("password", "Пароль короче 6-ти символов");
+        }
+
+        if (request.getName().length() > 20) {
+            errors.put("name", "Имя не должно превышать 20 символов");
+        }
+
+        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+
+        if(userOptional.isPresent()){
+            errors.put("email", "Этот e-mail уже зарегистрирован");
+        }
+
+        return errors;
+    }
+
+    private User createUser(RegistrationRequest request) {
+        User userForReg = new User();
+        userForReg.setName(request.getName());
+        String encodedPassword = encoder.encode(request.getPassword());
+        userForReg.setPassword(encodedPassword);
+        userForReg.setEmail(request.getEmail());
+        userForReg.setIsModerator(0);
+        userForReg.setRegTime(LocalDateTime.now());
+        return userForReg;
+    }
+
+    boolean isCaptchaValid(RegistrationRequest request) {
+
+        Collection<CaptchaCode> captchaCodes =
+                captchaRepository.findBySecretCode(request.getCaptchaSecretCode());
+
+        log.info("размер списка {}", captchaRepository.findById(1).size());
+
+        return !captchaCodes.isEmpty();
+
 
         // обратится в бд, получить каптчу по secret_code -> если каптчи нет, то вернуть "Каптча просрочена, обновите страницу"
         // проверить, протухла ли капча -> если время сейчас минус время создания каптчи больше 1 час -> , то вернуть "Каптча просрочена, обновите страницу"
         // проверить что введенная строка пользователем соответствует значению в ячейке code -> то вернуть "Код с картинки введён неверно"
-        if (!request.getUserInputCaptcha().equals("123")) {
-            return "Каптча просрочена, обновите страницу";
-        }
-
-        return "";
+//        if (request.getUserInputCaptcha().equals("123")) {
+//            return true;
+//        }
+//
+//        return false;
     }
 }

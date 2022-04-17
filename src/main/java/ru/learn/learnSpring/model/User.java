@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -27,7 +27,7 @@ public class User {
 
     @Column(name = "reg_time", columnDefinition = "DATETIME")
     @NotNull
-    private LocalDate regTime;
+    private LocalDateTime regTime;
 
     @Column(name = "name")
     @NotNull
