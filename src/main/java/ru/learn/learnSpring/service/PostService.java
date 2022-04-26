@@ -34,13 +34,31 @@ public class PostService {
         // 100, 10 = десять первых постов, страница 10
         // 0, 10 = десять первых постов, страница 1
 
+        // получить из бд посты с фильтрами mode
+        // использовать пагинацию
+        // заполнить response и вернуть
 
+        // 0 10 -> 0/10 = 0
+        // 10/10 = 1
 
-        Pageable pageable = PageRequest.of(1, 10 );
+        int pageNumber = offset / limit;
 
-        Page<Post> page = postRepository.findAll(pageable);
-        page.getTotalElements();
-        page.getTotalPages();
+        Pageable pageable = PageRequest.of(pageNumber, limit);
+        Page<Post> page;
+
+        if(mode.equals("popular")){
+            // колво комментов, join таблицы комменты или подзапрос SELECT с COUNT
+            page = postRepository.activeAcceptedPostsOrderByDateDesc(pageable);
+        } else if(mode.equals("early")){
+            page = postRepository.activeAcceptedPostsOrderByDate(pageable);
+        } else  if(mode.equals("best")){
+            // количеству лайков - колво дизлайков + кол-во комментов * 0.5
+            page = postRepository.activeAcceptedPostsOrderByDateDesc(pageable);
+        } else if(mode.equals("recent")){
+            page = postRepository.activeAcceptedPostsOrderByDateDesc(pageable);
+        } else {
+            throw new IllegalArgumentException("Выбран несуществующий mode!");
+        }
 
         List<Post> allPosts = page.getContent();
 
@@ -126,6 +144,9 @@ public class PostService {
     }
 
     public SinglePostResponse byId(int id) {
+
+//        postRepository.findById(8798);
+
         UserCommentResponse user1 = new UserCommentResponse(34, "Ivan", "/avatars/ab/cd/ef/52461.jpg");
         UserCommentResponse user2 = new UserCommentResponse(35, "Anton", null);
 

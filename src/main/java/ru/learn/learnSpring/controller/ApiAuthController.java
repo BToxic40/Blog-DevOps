@@ -17,6 +17,7 @@ import ru.learn.learnSpring.api.response.LoginResponse;
 import ru.learn.learnSpring.api.response.UserCheckResponse;
 import ru.learn.learnSpring.model.repository.UserRepository;
 import ru.learn.learnSpring.service.AuthService;
+import ru.learn.learnSpring.service.CaptchaService;
 
 import java.security.Principal;
 
@@ -26,12 +27,14 @@ public class ApiAuthController {
 
     private final AuthService authService;
     private final AuthenticationManager authenticationManager;
+    private final CaptchaService captchaService;
     private final UserRepository userRepository;
 
     @Autowired
-    public ApiAuthController(AuthService authService, AuthenticationManager authenticationManager, UserRepository userRepository) {
+    public ApiAuthController(AuthService authService, AuthenticationManager authenticationManager, CaptchaService captchaService, UserRepository userRepository) {
         this.authService = authService;
         this.authenticationManager = authenticationManager;
+        this.captchaService = captchaService;
         this.userRepository = userRepository;
     }
 
@@ -41,8 +44,8 @@ public class ApiAuthController {
 //    }
 
     @GetMapping("/captcha")
-    public ResponseEntity<CaptchaResponse> checkCaptcha() {
-        return ResponseEntity.ok(authService.captcha());
+    public ResponseEntity<CaptchaResponse> generateCaptcha() {
+        return ResponseEntity.ok(captchaService.createCaptcha());
     }
 
     @PostMapping("/register")
@@ -60,6 +63,12 @@ public class ApiAuthController {
         return ResponseEntity.ok(getLoginResponse(user.getUsername()));
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity<BaseResponse> logout(){
+        SecurityContextHolder.clearContext();
+        return ResponseEntity.ok(BaseResponse.successResponse);
+    }
+
     @GetMapping("/check")
     public ResponseEntity<LoginResponse> check(Principal principal) {
         if (principal == null) {
@@ -74,7 +83,9 @@ public class ApiAuthController {
         UserCheckResponse userResponse = new UserCheckResponse();
         userResponse.setEmail(currentUser.getEmail());
         userResponse.setModeration(currentUser.getIsModerator() == 1);
+        userResponse.setSettings(currentUser.getIsModerator() == 1);
         userResponse.setId(currentUser.getId());
+        userResponse.setName(currentUser.getName());
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setResult(true);

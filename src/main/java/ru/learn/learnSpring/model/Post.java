@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -42,7 +42,7 @@ public class Post {
 
     @Column(name = "time", columnDefinition = "DATETIME")
     @NotNull
-    private Date time;
+    private LocalDateTime time;
 
     @Column(name = "title")
     @NotNull
