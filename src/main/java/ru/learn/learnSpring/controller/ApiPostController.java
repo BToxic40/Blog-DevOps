@@ -48,10 +48,6 @@ public class ApiPostController {
     public ResponseEntity<PostListResponse> postByDate(@RequestParam String date,
                                                        @RequestParam(required = false, defaultValue = "0") int offset,
                                                        @RequestParam(required = false, defaultValue = "10") int limit) {
-        PostSearchParameters postSearchByDate = new PostSearchParameters();
-        postSearchByDate.setDate(date);
-        postSearchByDate.setOffset(offset);
-        postSearchByDate.setLimit(limit);
         return ResponseEntity.ok(postService.byDate(date, offset, limit));
     }
 
@@ -59,10 +55,6 @@ public class ApiPostController {
     public ResponseEntity<PostListResponse> postByTag(@RequestParam String tag,
                                                       @RequestParam(required = false, defaultValue = "0") int offset,
                                                       @RequestParam(required = false, defaultValue = "10") int limit) {
-        PostSearchParameters postSearchByTag = new PostSearchParameters();
-        postSearchByTag.setTag(tag);
-        postSearchByTag.setOffset(offset);
-        postSearchByTag.setLimit(limit);
         return ResponseEntity.ok(postService.byDate(tag, offset, limit));
     }
 
