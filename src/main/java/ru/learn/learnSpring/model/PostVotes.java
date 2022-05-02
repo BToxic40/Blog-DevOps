@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -33,7 +33,7 @@ public class PostVotes {
 
     @Column(name = "time", columnDefinition = "DATETIME")
     @NotNull
-    private Date time;
+    private LocalDateTime time;
 
     @Column(name = "value", columnDefinition = "TINYINT")
     @NotNull

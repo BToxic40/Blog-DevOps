@@ -8,14 +8,22 @@ import lombok.Setter;
 public class PostPreviewResponse {
 
     private int id;
-    private long timestamp;
-    private UserResponse user;
-    private String title;
-    private String announce;
-    private int likeCount;
-    private int dislikeCount;
-    private int viewCount;
-    private boolean active;
-    private String text;
 
+    private long timestamp;
+
+    private UserResponse user;
+
+    private String title;
+
+    private String announce;
+
+    private int likeCount;
+
+    private int dislikeCount;
+
+    private int viewCount;
+
+    private boolean active;
+
+    private String text;
 }
