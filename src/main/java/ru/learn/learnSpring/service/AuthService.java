@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.learn.learnSpring.api.request.RegistrationRequest;
 import ru.learn.learnSpring.api.response.BaseResponse;
 import ru.learn.learnSpring.api.response.ErrorResponse;
+import ru.learn.learnSpring.api.response.LoginResponse;
+import ru.learn.learnSpring.api.response.UserCheckResponse;
 import ru.learn.learnSpring.model.CaptchaCode;
 import ru.learn.learnSpring.model.User;
 import ru.learn.learnSpring.model.repository.CaptchaRepository;
@@ -27,9 +30,10 @@ import java.util.*;
 public class AuthService {
 
     public static final long UPDATE_FOR_CAPTCHA = 3600;
+    public static final int TIME_TO_DELETE = 1800000;
     private final CaptchaRepository captchaRepository;
-    private final CaptchaService captchaService;
     private final UserRepository userRepository;
+    private final ModerationService moderationService;
     private final PasswordEncoder encoder;
 
 
@@ -45,6 +49,25 @@ public class AuthService {
         deleteOldCaptcha();
 
         return BaseResponse.successResponse;
+    }
+
+    public LoginResponse getLogin(String email) {
+        ru.learn.learnSpring.model.User currentUser = userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
+
+        UserCheckResponse userResponse = new UserCheckResponse();
+        userResponse.setEmail(currentUser.getEmail());
+        userResponse.setModeration(currentUser.getIsModerator() == 1);
+        userResponse.setSettings(currentUser.getIsModerator() == 1);
+        userResponse.setId(currentUser.getId());
+        userResponse.setName(currentUser.getName());
+        userResponse.setModerationCount(moderationService.getPostsForModerationCount());
+
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setResult(true);
+        loginResponse.setUserLoginResponse(userResponse);
+        return loginResponse;
     }
 
     private Map<String, String> collectErrors(RegistrationRequest request) {
@@ -106,7 +129,7 @@ public class AuthService {
         return captchaCode.getCode().equals(request.getUserInputCaptcha());
     }
 
-    @Scheduled(fixedDelay = 1800000)
+    @Scheduled(fixedDelay = TIME_TO_DELETE)
     public void deleteOldCaptcha() {
         captchaRepository.delete();
     }

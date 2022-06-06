@@ -19,12 +19,10 @@ public class Post {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
-    private int id;
+    private Integer id;
 
-    @Column(name = "is_active", columnDefinition = "TINYINT")
-    @NotNull
-    private String isActive;
+    @Column(name = "is_active")
+    private int isActive;
 
 //    @Column(name = "moderation_status", columnDefinition = "ENUM")
     @Column(name = "moderation_status")
@@ -57,18 +55,18 @@ public class Post {
     private int viewCount;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    private List<PostVotes> postVotes;
+    private List<PostVote> postVotes;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<PostComments> postComments;
 
-    @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY)
-    private List<Tags> tags;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+//    @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY)
+//    private List<Tags> tags;
+//
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tag2post",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private List<Tags> tag;
+    private List<Tag> tag;
 
 }

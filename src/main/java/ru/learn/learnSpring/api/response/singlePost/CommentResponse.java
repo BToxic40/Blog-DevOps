@@ -1,15 +1,15 @@
 package ru.learn.learnSpring.api.response.singlePost;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommentResponse {
-
-    private int id;
-    private int timestamp;
+    private Integer id;
+    private Long timestamp;
     private String text;
     private UserCommentResponse user;
-
 }

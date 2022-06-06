@@ -24,7 +24,7 @@ public class PostComments {
     private int id;
 
     @Column(name = "parent_id")
-    private Integer parent_id;
+    private Integer parentId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")

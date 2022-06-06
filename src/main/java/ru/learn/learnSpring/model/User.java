@@ -48,7 +48,7 @@ public class User {
     private String photo;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<PostVotes> postVotes;
+    private List<PostVote> postVotes;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<PostComments> postComments;
