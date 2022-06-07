@@ -5,20 +5,25 @@ import com.github.cage.GCage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.imgscalr.Scalr;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import ru.learn.learnSpring.api.request.RegistrationRequest;
 import ru.learn.learnSpring.api.response.CaptchaResponse;
 import ru.learn.learnSpring.exception.CanNotCreateCaptchaException;
 import ru.learn.learnSpring.model.CaptchaCode;
+import ru.learn.learnSpring.model.User;
 import ru.learn.learnSpring.model.repository.CaptchaRepository;
+import ru.learn.learnSpring.model.repository.UserRepository;
 
 import javax.imageio.ImageIO;
+import javax.transaction.Transactional;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.Random;
-import java.util.UUID;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +31,13 @@ import java.util.UUID;
 public class CaptchaService {
     public static final int CAPTCHA_CODE_LENGTH = 5;
     public static final String CAPTCHA_FORMAT_IMAGE = "png";
+    public static final long UPDATE_FOR_CAPTCHA = 3600;
     private final CaptchaRepository captchaRepository;
     public final static int CAPTCHA_LENGTH = 100;
     public final static String CAPTCHA_SYMBOLS = "abcdfgkp12356789";
     public final static String BASE64_HEADER = "data:image/png;base64, ";
+    public static final int TIME_TO_DELETE = 1800000;
+    private final UserRepository userRepository;
     // сгенерировать код для каптчи
     //--- создать массив разрешенных символов [f, a, e, 3, k, p] -> а33pk
     // на основе кода создать изображение для пользователя
@@ -62,6 +70,39 @@ public class CaptchaService {
         captchaResponse.setImage(base64Image);
         captchaResponse.setSecret(secretCode.toString());
         return captchaResponse;
+    }
+
+    @Transactional
+    @Scheduled(fixedDelay = TIME_TO_DELETE)
+    public void deleteOldCaptcha() {
+        captchaRepository.delete();
+    }
+
+    public Optional<User> getCurrentUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(email);
+
+    }
+
+    boolean isCaptchaValid(RegistrationRequest request) {
+
+        List<CaptchaCode> captchaCodes =
+                new ArrayList<>(captchaRepository.findBySecretCode(request.getCaptchaSecretCode()));
+
+        if (captchaCodes.isEmpty()) {
+            return false;
+        }
+
+        CaptchaCode captchaCode = captchaCodes.get(0);
+        LocalDateTime startTime = LocalDateTime.now();
+        LocalDateTime endTime = captchaCode.getTime();
+        long hour = ChronoUnit.HOURS.between(startTime, endTime);
+
+        if (hour >= UPDATE_FOR_CAPTCHA) {
+            return false;
+        }
+
+        return captchaCode.getCode().equals(request.getUserInputCaptcha());
     }
 
     private String imageToBase64(BufferedImage image) {

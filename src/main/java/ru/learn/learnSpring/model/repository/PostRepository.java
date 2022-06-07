@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.learn.learnSpring.model.ModerationStatus;
 import ru.learn.learnSpring.model.Post;
 import ru.learn.learnSpring.model.User;
 
@@ -67,13 +68,21 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             "limit ?2 offset ?3", nativeQuery = true)
     public List<Post> findByStatus(String status, int limit, int offset);
 
+    @Query(value="SELECT * FROM posts " +
+            "where moderation_status = ?1 " +
+            "limit ?2 offset ?3", nativeQuery = true)
+    public List<Post> findForModerationByStatus(String status, int limit, int offset);
+
     @Modifying
     @Transactional
     @Query(value = "UPDATE `posts` SET `moderation_status` = ?1 WHERE (`id` = ?2)", nativeQuery = true)
     public void changeStatus(@Param("status") String status, @Param("postId") Integer postId);
 
-    @Query("select count(*) from Post p WHERE p.moderationStatus = 'NEW'")
-    int getPostsForModerationCount();
+    @Query("select count(*) from Post p WHERE p.moderationStatus = ?1")
+    int getPostsForModerationCount(ModerationStatus status);
+
+    @Query(value="SELECT COUNT(*) FROM posts where moderation_status = 'NEW'", nativeQuery = true)
+    Integer findByModerationStatus();
 
     @Query(value = "SELECT COUNT(id) FROM posts " +
             "WHERE is_active=1 AND moderation_status='ACCEPTED' AND time < now() ", nativeQuery = true)

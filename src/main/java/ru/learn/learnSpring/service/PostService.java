@@ -47,6 +47,7 @@ public class PostService {
     private final PostCommentRepository postCommentRepository;
     private final UserRepository userRepository;
 
+
 //    private PostPreviewResponse postDetails(Post post) {
 //        PostPreviewResponse postDetails = new PostPreviewResponse();
 //        postDetails.setId(post.getId());
@@ -275,16 +276,20 @@ public class PostService {
 
         List<PostPreviewResponse> dto = getPostsModeration(offset, limit, status);
 
-        int countPost = dto.size();
+        int countPost = getPostsForModerationCount(status);
         postsResponse.setCount(countPost);
         postsResponse.setPosts(dto);
 
         return postsResponse;
     }
 
+    public int getPostsForModerationCount(String status) {
+        return postRepository.getPostsForModerationCount(ModerationStatus.valueOf(status.toUpperCase()));
+    }
+
     public List<PostPreviewResponse> getPostsModeration(int offset, int limit, String status) {
         List<PostPreviewResponse> result;
-        result = (postRepository.findByStatus(status, limit, offset))
+        result = (postRepository.findForModerationByStatus(status, limit, offset))
                 .stream()
                 .map(this::convertToPostPreviewResponse)
                 .collect(Collectors.toList());

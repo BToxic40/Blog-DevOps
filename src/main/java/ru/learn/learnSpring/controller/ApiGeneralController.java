@@ -1,13 +1,14 @@
 package ru.learn.learnSpring.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.learn.learnSpring.api.request.ModerationRequest;
+import ru.learn.learnSpring.api.response.BaseResponse;
 import ru.learn.learnSpring.api.response.InitResponse;
 import ru.learn.learnSpring.api.response.PostCalendarResponse;
 import ru.learn.learnSpring.service.CalendarService;
+import ru.learn.learnSpring.service.ModerationService;
+import ru.learn.learnSpring.service.PostService;
 import ru.learn.learnSpring.service.SettingsService;
 
 import java.util.Map;
@@ -20,10 +21,13 @@ public class ApiGeneralController {
     private final InitResponse initResponse;
     private final CalendarService calendarService;
 
-    public ApiGeneralController(SettingsService settingsService, InitResponse initResponse, CalendarService calendarService) {
+    private final ModerationService moderationService;
+
+    public ApiGeneralController(SettingsService settingsService, InitResponse initResponse, CalendarService calendarService, PostService postService, ModerationService moderationService) {
         this.settingsService = settingsService;
         this.initResponse = initResponse;
         this.calendarService = calendarService;
+        this.moderationService = moderationService;
     }
 
     @GetMapping("/settings")
@@ -40,6 +44,11 @@ public class ApiGeneralController {
     private ResponseEntity<PostCalendarResponse> calendar(
             @RequestParam(value = "year", defaultValue = "0") Integer years) {
         return ResponseEntity.ok(calendarService.getPosts(years));
+    }
+
+    @PostMapping("/moderation")
+    public BaseResponse Restore(@RequestBody ModerationRequest moderationRequest) {
+        return moderationService.decisionModeration(moderationRequest.getPostId(), moderationRequest.getDecision());
     }
 
 }

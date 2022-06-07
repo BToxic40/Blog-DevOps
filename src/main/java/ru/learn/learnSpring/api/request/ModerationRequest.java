@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ModerationRequest {
-    @JsonProperty("id")
+    @JsonProperty("post_id")
     private Integer postId;
 
     private String decision;
