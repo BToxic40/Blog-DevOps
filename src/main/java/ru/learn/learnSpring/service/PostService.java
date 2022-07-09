@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class PostService {
     public static final int LIKE_VALUE = 1;
     public static final int DISLIKE_VALUE = -1;
-//    public static final int MAX_ANNOUNCE_LENGTH = 150;
+    public static final int MAX_ANNOUNCE_LENGTH = 150;
     private final PostRepository postRepository;
     private final PostVotesRepository postVotesRepository;
     private final TagsRepository tagsRepository;
@@ -46,53 +46,6 @@ public class PostService {
     private final SettingsService settingsService;
     private final PostCommentRepository postCommentRepository;
     private final UserRepository userRepository;
-
-
-//    private PostPreviewResponse postDetails(Post post) {
-//        PostPreviewResponse postDetails = new PostPreviewResponse();
-//        postDetails.setId(post.getId());
-//        //postDetails.setTimestamp(LocalDateTime);
-//        postDetails.setTitle(post.getTitle());
-//
-//        String annotation = post.getText();
-//        while (annotation.indexOf(">") > 0) {
-//            int beginTag = annotation.indexOf("<");
-//            int endTag = annotation.indexOf(">") + 1;
-//            annotation = annotation.replace(annotation.substring(beginTag, endTag), "");
-//            System.out.println(annotation);
-//        }
-//
-//        if (annotation.length() > MAX_ANNOUNCE_LENGTH) {
-//            annotation = annotation.substring(0, MAX_ANNOUNCE_LENGTH) + "...";
-//        }
-//        postDetails.setAnnounce(annotation);
-//        postDetails.setViewCount(post.getViewCount());
-//
-//        //Cчитаем лайки и дислайки
-//        int likeCount = postVotesRepository.countVotesByPost(post.getId(), LIKE_VALUE);
-//        int dislikeCount = postVotesRepository.countVotesByPost(post.getId(), DISLIKE_VALUE);
-//
-//        postDetails.setLikeCount(likeCount);
-//        postDetails.setDislikeCount(dislikeCount);
-
-
-//        List<Post> postCommentPost = new ArrayList<>();
-//        commentsRepository.findAll().forEach(postCommentRepository -> postCommentPost.add(postCommentRepository.getPost()));
-//        Находим и выводим количество комментариев к посту
-//        int countComments = 0;
-//        for (int k = 0; k < postCommentPost.size(); k++) {
-//            if (post.getId() == postCommentPost.get(k).getId()) {
-//                countComments++;
-//            }
-//        }
-//        postDetails.setCommentCount(countComments);
-//        Map<String, Object> user = new HashMap<>();
-//        user.put("id", post.getUser().getId());
-//        user.put("user", post.getUser().getName());
-//        postDetails.setUser(user);
-//
-//        return postDetails;
-//    }
 
     public PostListResponse postList(String mode, int offset, int limit) {
 

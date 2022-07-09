@@ -27,17 +27,14 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             "ORDER BY time", nativeQuery = true)
     Page<Post> findByEarly(Pageable pageable);
 
-    @Query(value="SELECT *, COUNT(post_id) as 'count_comments' FROM post_comments" +
-            " join posts on posts.id = post_comments.post_id " +
-            "where moderation_status='ACCEPTED'" +
-            "group by post_id " +
-            "order by count_comments desc ", nativeQuery = true)
+    @Query(value="FROM Post p " +
+            "WHERE p.isActive=1 AND p.moderationStatus='ACCEPTED' AND p.time < now() " +
+            "order by p.postComments.size desc ")
     Page<Post> findByPopular(Pageable pageable);
 
-    @Query(value="SELECT * FROM posts " +
-            "INNER join post_votes ON post_votes.post_id = posts.id " +
-            "where moderation_status='ACCEPTED'" +
-            "order by value desc ", nativeQuery = true)
+    @Query(value="FROM Post p " +
+            "WHERE p.isActive=1 AND p.moderationStatus='ACCEPTED' AND p.time < now() " +
+            "order by p.postVotes.size desc ")
     Page<Post> findByBest(Pageable pageable);
 
     @Query(value = "SELECT * FROM posts " +
