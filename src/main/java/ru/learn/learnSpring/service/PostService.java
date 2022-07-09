@@ -405,10 +405,7 @@ public class PostService {
         return PostVoteResponse.builder().result(true).build();
     }
 
-    public ResponseEntity<Object> comment(CommentRequest request, Principal principal) {
-
-        // если поста нет, то 400
-
+    public ResponseEntity<Response> comment(CommentRequest request, Principal principal) {
         if (request.getText().length() < 2) {
             return new ResponseEntity<>(ContentAddResponse.builder()
                     .errors(ContentAddErrors.builder().text("Текст комментария не задан или слишком короткий").build())
@@ -442,7 +439,7 @@ public class PostService {
 
         postComments.setText(request.getText());
         int id = postCommentRepository.save(postComments).getId();
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(new PublishCommentResponse(id), HttpStatus.OK);
     }
 
     private long getUnixTimestamp(Post post) {

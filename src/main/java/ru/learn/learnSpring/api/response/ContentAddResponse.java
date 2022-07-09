@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContentAddResponse {
+public class ContentAddResponse implements Response {
     private boolean result;
     private ContentAddErrors errors;
 }
