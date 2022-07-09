@@ -175,9 +175,20 @@ public class PostService {
         int pageNumber = offset / limit;
 
         Pageable pageable = PageRequest.of(pageNumber, limit);
-        Page<Integer> page = tagsRepository.findTag(pageable, tag);
+        Integer tagId = tagsRepository.findTag(tag).orElseThrow();
+        List<Integer> postsIds = tagsRepository.findIdsPostsByTagId(tagId);
 
-        return (PostListResponse) page;
+        List<Post> posts = postRepository.findAllById(postsIds);
+
+PostListResponse postListResponse = new PostListResponse();
+postListResponse.setCount(posts.size());
+        List<PostPreviewResponse> postPreviewResponseList = new ArrayList<>();
+        for (Post post : posts) {
+            PostPreviewResponse previewResponse = convertToPostPreviewResponse(post);
+            postPreviewResponseList.add(previewResponse);
+        }
+        postListResponse.setPosts(postPreviewResponseList);
+        return postListResponse;
     }
 
     public SinglePostResponse findPostById(int id) {

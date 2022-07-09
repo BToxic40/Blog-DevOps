@@ -1,7 +1,5 @@
 package ru.learn.learnSpring.model.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import ru.learn.learnSpring.model.Tag;
@@ -16,8 +14,11 @@ public interface TagsRepository extends CrudRepository<Tag, Integer> {
     @Query(value = "SELECT * FROM tags where name = ?1", nativeQuery = true)
     Optional<Tag> findByName(String nameTag);
 
-    @Query(value = "SELECT id FROM tags where name = ?1", nativeQuery = true)
-    Page<Integer> findTag(Pageable pageable, String tag);
+    @Query(value = "SELECT id FROM tags where name = ?1 LIMIT 1", nativeQuery = true)
+    Optional<Integer> findTag(String tag);
+
+    @Query(value = "SELECT tp.post_id FROM spring.tag2post as tp WHERE tag_id = ?1", nativeQuery = true)
+    List<Integer> findIdsPostsByTagId(Integer tag);
 
     @Query(value = "SELECT name FROM tags where id = ?1", nativeQuery = true)
     String findTagsById(Integer id);
