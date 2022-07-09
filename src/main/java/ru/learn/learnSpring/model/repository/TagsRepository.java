@@ -26,7 +26,9 @@ public interface TagsRepository extends CrudRepository<Tag, Integer> {
 
     @Query(value = "SELECT t.name, COUNT(t.name) as postsCount FROM spring.tags as t " +
             "JOIN spring.tag2post as t2p ON  t.id = t2p.tag_id " +
+            "JOIN posts as p ON  p.id = t2p.post_id " +
             "WHERE t.name LIKE %:query% " +
+            "AND is_active=1 AND moderation_status='ACCEPTED' " +
             "GROUP BY t.name " +
             "ORDER BY postsCount DESC " +
             "LIMIT 20;", nativeQuery = true)
