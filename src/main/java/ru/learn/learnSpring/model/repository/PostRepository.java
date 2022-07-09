@@ -39,6 +39,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     @Query(value = "SELECT * FROM posts " +
             "WHERE DATE_FORMAT(time, '%Y-%m-%d') = :dateWoTime " +
+            "AND is_active=1 AND moderation_status='ACCEPTED' " +
             "ORDER BY time", nativeQuery = true)
     Page<Post> findPostsByDate( Pageable pageable, @Param("dateWoTime") String date);
 
@@ -94,7 +95,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value = "from Post p WHERE p.time <= now() AND id = :id")
     Post findPostById(@Param("id")Integer id);
 
-    @Query(value="SELECT date(time) FROM posts " +
+    @Query(value="SELECT date(date(time) + 1)  FROM posts " +
             "where year(time)=?1 AND is_active = 1 AND moderation_status = 'ACCEPTED' " +
             "group by date(time) " +
             "order by time", nativeQuery = true)

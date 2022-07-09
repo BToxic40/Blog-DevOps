@@ -25,15 +25,16 @@ public class CalendarService {
         }
 
         List<String> date = postRepository.findYear(year);
+        date.forEach(System.out::println);
         List<Integer> dateCount = postRepository.findYearCount(year);
 
         PostCalendarResponse postCalendar = new PostCalendarResponse();
-        Map<String, Integer> calendar = new TreeMap<>();
+        Map<String, Integer> postsByDate = new TreeMap<>();
         for (int i = 0; i < date.size(); i++) {
-            calendar.put(date.get(i), dateCount.get(i));
-
+            postsByDate.put(date.get(i), dateCount.get(i));
+            System.out.println(date.get(i));
         }
-        postCalendar.setPosts(calendar);
+        postCalendar.setPosts(postsByDate);
         List<Integer> yearsList = postRepository.findYearsForCalendar();
         postCalendar.setYears(yearsList);
 
