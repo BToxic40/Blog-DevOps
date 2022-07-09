@@ -312,6 +312,8 @@ public class PostService {
         postPreviewResponse.setDislikeCount(postVotesRepository.countVotesByPost(post.getId(), DISLIKE_VALUE));
         postPreviewResponse.setUser(new UserResponse(post.getUser().getId(), post.getUser().getName()));
         postPreviewResponse.setTimestamp(getUnixTimestamp(post));
+        postPreviewResponse.setViewCount(post.getViewCount());
+        postPreviewResponse.setCommentCount(post.getPostComments().size());
         return postPreviewResponse;
     }
 
