@@ -133,21 +133,11 @@ public class PostService {
     }
 
     public PostListResponse search(PostSearchParameters postSearchParameters) {
-        List<Post> allPosts = postRepository.findAll();
+        int pageNumber = postSearchParameters.getOffset() / postSearchParameters.getLimit();
 
-        PostListResponse postListResponse = new PostListResponse();
-        postListResponse.setCount(allPosts.size());
-
-        List<PostPreviewResponse> postPreviewResponseList = new ArrayList<>();
-        for (Post post : allPosts) {
-            PostPreviewResponse previewResponse = convertToPostPreviewResponse(post);
-            postPreviewResponseList.add(previewResponse);
-        }
-
-        postPreviewResponseList.add(new PostPreviewResponse());
-        postListResponse.setPosts(postPreviewResponseList);
-        log.info(postSearchParameters.toString());
-        return postListResponse;
+        Pageable pageable = PageRequest.of(pageNumber, postSearchParameters.getLimit());
+        Page<Post> page = postRepository.search(pageable, postSearchParameters.getQuery());
+        return convertToListPostResponse(page);
     }
 
     public PostListResponse delete(int id) {

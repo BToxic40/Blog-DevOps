@@ -146,4 +146,11 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             "    LIMIT 1", nativeQuery = true)
     Optional<Post> firstPublishedPostByAuthorId(int authorId);
 
+    @Query(value = "SELECT * FROM posts p " +
+            "WHERE p.is_active = 1 " +
+            "AND p.moderation_status = 'ACCEPTED' " +
+            "AND (p.title LIKE %?1% OR p.text LIKE %?1%) " +
+            "ORDER BY p.view_count DESC", nativeQuery = true)
+    Page<Post> search(Pageable pageable, String query);
+
 }
