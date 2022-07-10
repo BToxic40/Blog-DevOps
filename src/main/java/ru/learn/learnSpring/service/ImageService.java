@@ -26,6 +26,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageService {
 
+
+
+    public static final int MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
     @Value("${app.files.images.folder}")
     private String uploadFolder;
 
@@ -37,7 +40,7 @@ public class ImageService {
 
         Map<String, String> error = new HashMap<>();
 
-        if (image.getSize() > 1) {
+        if (image.getSize() > MAX_FILE_SIZE) {
             postResponse.setResult(false);
             error.put("image", "Размер файла превышает допустимый размер 5 мб");
             postResponse.setErrors(error);
