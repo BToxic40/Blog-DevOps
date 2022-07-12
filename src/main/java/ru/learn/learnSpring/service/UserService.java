@@ -29,6 +29,7 @@ public class UserService {
         userResponse.setSettings(currentUser.getIsModerator() == 1);
         userResponse.setId(currentUser.getId());
         userResponse.setName(currentUser.getName());
+        userResponse.setPhoto(currentUser.getPhoto());
         userResponse.setModerationCount(postRepository.getPostsForModerationCount(ModerationStatus.NEW));
 
         LoginResponse loginResponse = new LoginResponse();

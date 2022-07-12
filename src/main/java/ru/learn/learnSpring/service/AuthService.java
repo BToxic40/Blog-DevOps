@@ -11,6 +11,7 @@ import ru.learn.learnSpring.api.response.ErrorResponse;
 import ru.learn.learnSpring.model.User;
 import ru.learn.learnSpring.model.repository.UserRepository;
 import ru.learn.learnSpring.utils.EmailValidator;
+import ru.learn.learnSpring.utils.Validators;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -42,7 +43,10 @@ public class AuthService {
     public Optional<User> getCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(email);
+    }
 
+    public String encryptPassword(String password){
+        return encoder.encode(password);
     }
 
     private Map<String, String> collectErrors(RegistrationRequest request) {
@@ -55,13 +59,11 @@ public class AuthService {
             errors.put("email", "Неверный формат email");
         }
 
-        if (request.getPassword().length() < 6) {
-            errors.put("password", "Пароль короче 6-ти символов");
-        }
+        Validators.password(request.getPassword())
+                .ifPresent(entry -> errors.put(entry.getKey(), entry.getValue()));
 
-        if (request.getName().length() > 20) {
-            errors.put("name", "Имя не должно превышать 20 символов");
-        }
+        Validators.name(request.getName())
+                .ifPresent(entry -> errors.put(entry.getKey(), entry.getValue()));
 
         Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
 
@@ -82,7 +84,6 @@ public class AuthService {
         userForReg.setRegTime(LocalDateTime.now());
         return userForReg;
     }
-
 
 
 
