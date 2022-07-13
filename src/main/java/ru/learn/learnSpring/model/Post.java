@@ -24,7 +24,6 @@ public class Post {
     @Column(name = "is_active")
     private int isActive;
 
-//    @Column(name = "moderation_status", columnDefinition = "ENUM")
     @Column(name = "moderation_status")
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -60,13 +59,9 @@ public class Post {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<PostComments> postComments;
 
-//    @OneToMany(mappedBy = "posts", fetch = FetchType.LAZY)
-//    private List<Tags> tags;
-//
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tag2post",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tag;
-
 }

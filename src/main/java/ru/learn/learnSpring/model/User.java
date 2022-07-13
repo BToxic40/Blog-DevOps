@@ -14,7 +14,6 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +43,7 @@ public class User {
     @Column(name = "code")
     private String code;
 
-    @Column(name = "photo",columnDefinition = "TEXT")
+    @Column(name = "photo", columnDefinition = "TEXT")
     private String photo;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
@@ -59,5 +58,4 @@ public class User {
     public Role getRole() {
         return isModerator == 1 ? Role.MODERATOR : Role.USER;
     }
-
 }

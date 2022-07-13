@@ -170,8 +170,8 @@ public class PostService {
 
         List<Post> posts = postRepository.findAllById(postsIds);
 
-PostListResponse postListResponse = new PostListResponse();
-postListResponse.setCount(posts.size());
+        PostListResponse postListResponse = new PostListResponse();
+        postListResponse.setCount(posts.size());
         List<PostPreviewResponse> postPreviewResponseList = new ArrayList<>();
         for (Post post : posts) {
             PostPreviewResponse previewResponse = convertToPostPreviewResponse(post);
@@ -335,7 +335,7 @@ postListResponse.setCount(posts.size());
 
         Optional<User> currentUserOpt = authService.getCurrentUser();
 
-        if(currentUserOpt.isEmpty()){
+        if (currentUserOpt.isEmpty()) {
             return PostVoteResponse.builder().result(false).build();
         }
 
@@ -402,5 +402,4 @@ postListResponse.setCount(posts.size());
         ZoneId zoneId = ZoneId.systemDefault();
         return post.getTime().atZone(zoneId).toEpochSecond();
     }
-
 }

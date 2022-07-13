@@ -10,7 +10,8 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 public class ChangeProfileResponse {
-    private boolean result;
-    private Map<String, String> errors;
 
+    private boolean result;
+
+    private Map<String, String> errors;
 }

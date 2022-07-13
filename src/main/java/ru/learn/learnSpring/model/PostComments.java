@@ -43,5 +43,4 @@ public class PostComments {
 
     @Column(name = "text", columnDefinition = "MEDIUMTEXT")
     private String text;
-
 }

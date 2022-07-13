@@ -26,7 +26,6 @@ public class AuthService {
     private final PasswordEncoder encoder;
     private final CaptchaService captchaService;
 
-
     public BaseResponse register(RegistrationRequest request) {
         Map<String, String> errors = collectErrors(request);
 
@@ -45,7 +44,7 @@ public class AuthService {
         return userRepository.findByEmail(email);
     }
 
-    public String encryptPassword(String password){
+    public String encryptPassword(String password) {
         return encoder.encode(password);
     }
 
@@ -84,7 +83,4 @@ public class AuthService {
         userForReg.setRegTime(LocalDateTime.now());
         return userForReg;
     }
-
-
-
 }

@@ -10,5 +10,6 @@ import java.util.Map;
 public class PostCalendarResponse {
 
     private List<Integer> years;
+
     private Map<String, Integer> posts;
 }

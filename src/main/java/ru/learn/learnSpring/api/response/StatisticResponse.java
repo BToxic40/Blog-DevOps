@@ -8,9 +8,14 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @Getter
 public class StatisticResponse {
+
     private final int postsCount;
+
     private final int likesCount;
+
     private final int dislikesCount;
+
     private final int viewsCount;
+
     private final long firstPublication;
 }

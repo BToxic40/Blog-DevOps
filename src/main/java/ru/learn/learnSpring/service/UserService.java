@@ -37,6 +37,4 @@ public class UserService {
         loginResponse.setUserLoginResponse(userResponse);
         return loginResponse;
     }
-
-
 }

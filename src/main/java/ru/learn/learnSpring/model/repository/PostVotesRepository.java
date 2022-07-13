@@ -17,19 +17,20 @@ public interface PostVotesRepository extends JpaRepository<PostVote, Integer> {
     List<PostVote> findAll();
 
     List<PostVote> findAllByPostId(int PostId);
+
     Optional<PostVote> findByPostAndUser(Post post, User user);
 
-    @Query(value="SELECT COUNT(value) FROM post_votes  where post_id =?1 AND value =?2", nativeQuery = true)
+    @Query(value = "SELECT COUNT(value) FROM post_votes  where post_id =?1 AND value =?2", nativeQuery = true)
     Integer countVotesByPost(int postId, int typeLike);
 
-    @Query(value="SELECT COUNT(*) FROM post_votes " +
+    @Query(value = "SELECT COUNT(*) FROM post_votes " +
             "JOIN posts ON posts.id = post_votes.post_id " +
             "WHERE post_votes.value = ?1 " +
             "AND posts.is_active = 1 " +
             "AND posts.moderation_status = 'ACCEPTED' ", nativeQuery = true)
     int countVotes(int voteValue);
 
-    @Query(value="SELECT COUNT(*) FROM post_votes pv " +
+    @Query(value = "SELECT COUNT(*) FROM post_votes pv " +
             "JOIN posts p ON p.id = pv.post_id " +
             "WHERE pv.value = ?1 " +
             "AND p.is_active = 1 " +

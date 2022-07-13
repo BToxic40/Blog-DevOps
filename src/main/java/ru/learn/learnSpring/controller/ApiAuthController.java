@@ -33,8 +33,6 @@ public class ApiAuthController {
     private final CaptchaService captchaService;
     private final RestorePasswordService restorePasswordService;
 
-
-
     @GetMapping("/captcha")
     public ResponseEntity<CaptchaResponse> generateCaptcha() {
         return ResponseEntity.ok(captchaService.createCaptcha());
@@ -73,8 +71,6 @@ public class ApiAuthController {
     public LogoutResponse Restore(@RequestBody RestoreRequest restoreRequest) {
         return restorePasswordService.restorePassword(restoreRequest.getEmail());
     }
-
-
 }
 
 

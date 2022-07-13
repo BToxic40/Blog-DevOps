@@ -8,8 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentResponse {
+
     private Integer id;
+
     private Long timestamp;
+
     private String text;
+
     private UserCommentResponse user;
 }

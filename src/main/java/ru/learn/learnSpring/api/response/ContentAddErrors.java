@@ -10,11 +10,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContentAddErrors {
+
     private String title;
+
     private String text;
+
     private String image;
+
     private String email;
+
     private String photo;
+
     private String name;
+
     private String password;
 }

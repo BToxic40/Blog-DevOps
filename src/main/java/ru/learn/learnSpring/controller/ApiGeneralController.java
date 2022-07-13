@@ -34,13 +34,4 @@ public class ApiGeneralController {
     public BaseResponse Restore(@RequestBody ModerationRequest moderationRequest) {
         return moderationService.decisionModeration(moderationRequest.getPostId(), moderationRequest.getDecision());
     }
-
-//    @RequestMapping(path = "/profile/my", method = POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    private ChangeProfileResponse profileMy(@RequestPart(value = "photo") MultipartFile photo,
-//                                            @ModelAttribute ChangeProfileRequest changeProfileRequest) throws IOException {
-//        return profileService.changeProfile(photo, changeProfileRequest.getEmail(),
-//                changeProfileRequest.getName(), changeProfileRequest.getPassword(),
-//                changeProfileRequest.getRemovePhoto());
-//    }
-
 }

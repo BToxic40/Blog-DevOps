@@ -14,7 +14,6 @@ public class ModerationService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-
     private final AuthService authService;
 
     public BaseResponse decisionModeration(int postId, String decision) {
@@ -23,7 +22,7 @@ public class ModerationService {
         User id = authService.getCurrentUser().orElseThrow();
         if (userRepository.findUserInfo(id).getIsModerator() == 0) {
             authCheckResponse.setSuccess(false);
-        } else if (decision.equals("accept")){
+        } else if (decision.equals("accept")) {
             postRepository.changeStatus("ACCEPTED", postId);
             authCheckResponse.setSuccess(true);
         } else if (decision.equals("decline")) {
@@ -35,6 +34,4 @@ public class ModerationService {
 
         return authCheckResponse;
     }
-
-
 }

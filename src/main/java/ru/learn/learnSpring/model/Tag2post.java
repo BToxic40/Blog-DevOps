@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class Tag2post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

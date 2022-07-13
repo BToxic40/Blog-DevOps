@@ -26,8 +26,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageService {
 
-
-
     public static final int MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
     @Value("${app.files.images.folder}")
     private String uploadFolder;
@@ -61,7 +59,6 @@ public class ImageService {
     public void writeImageInServer(MultipartFile image, String nameImage) {
         log.info(uploadFolder);
 
-        //если название файла НЕ оканчивается на jpg png gif, выбросим исключение
         try {
             InputStream initialStream = image.getInputStream();
             byte[] buffer = new byte[initialStream.available()];
@@ -81,5 +78,4 @@ public class ImageService {
             throw new UploadImageException(e);
         }
     }
-
 }

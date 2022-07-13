@@ -6,5 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class PostVoteResponse {
+
     private Boolean result;
 }

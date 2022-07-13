@@ -11,16 +11,26 @@ import java.util.List;
 public class SinglePostResponse {
 
     private int id;
-    private long timestamp;
-    private UserResponse user;
-    private List<String> tags;
-    private String title;
-    private String announce;
-    private int likeCount;
-    private int dislikeCount;
-    private int viewCount;
-    private boolean active;
-    private String text;
-    private List<CommentResponse> comments;
 
+    private long timestamp;
+
+    private UserResponse user;
+
+    private List<String> tags;
+
+    private String title;
+
+    private String announce;
+
+    private int likeCount;
+
+    private int dislikeCount;
+
+    private int viewCount;
+
+    private boolean active;
+
+    private String text;
+
+    private List<CommentResponse> comments;
 }

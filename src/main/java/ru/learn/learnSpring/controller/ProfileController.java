@@ -17,7 +17,6 @@ import ru.learn.learnSpring.service.ProfileService;
 public class ProfileController {
     private final ProfileService profileService;
 
-
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE})
     @PreAuthorize("hasAuthority('user:write')")
     public BaseResponse changeProfileWithoutPhoto(@RequestBody ChangeProfileWithoutPhotoRequest request) {

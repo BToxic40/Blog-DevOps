@@ -77,23 +77,23 @@ public class ApiPostController {
     }
 
     @PostMapping("")
-    public ResponseEntity<BaseResponse> createPost(@RequestBody NewPostRequest newPostRequest){
+    public ResponseEntity<BaseResponse> createPost(@RequestBody NewPostRequest newPostRequest) {
         return postService.createPost(newPostRequest);
     }
 
     @DeleteMapping("/{id:\\d+}")
-    public void deletePost(@PathVariable(name="id")int id){
+    public void deletePost(@PathVariable(name = "id") int id) {
         postService.delete(id);
     }
 
     @PostMapping("/like")
-    private ResponseEntity<PostVoteResponse> like (@RequestBody PostVoteRequest request) {
+    private ResponseEntity<PostVoteResponse> like(@RequestBody PostVoteRequest request) {
 
         return ResponseEntity.ok(postService.like(request));
     }
 
     @PostMapping("/dislike")
-    private ResponseEntity<PostVoteResponse> dislike (@RequestBody PostVoteRequest request) {
+    private ResponseEntity<PostVoteResponse> dislike(@RequestBody PostVoteRequest request) {
 
         return ResponseEntity.ok(postService.dislike(request));
     }
@@ -106,6 +106,4 @@ public class ApiPostController {
     ) {
         return postService.getPostsByModeration(offset, limit, status);
     }
-
-
 }

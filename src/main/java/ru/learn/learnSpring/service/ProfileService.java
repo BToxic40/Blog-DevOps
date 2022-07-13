@@ -53,7 +53,6 @@ public class ProfileService {
 
         return BaseResponse.successResponse;
     }
-
     public BaseResponse change(MultipartFile photo, String name, String password) {
         ChangeProfileWithoutPhotoRequest withoutPhotoRequest = new ChangeProfileWithoutPhotoRequest();
         withoutPhotoRequest.setPassword(password);

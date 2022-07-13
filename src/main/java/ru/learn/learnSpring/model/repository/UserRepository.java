@@ -19,10 +19,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Override
     <S extends User> List<S> saveAll(Iterable<S> iterable);
 
-    @Query(value="SELECT * FROM users where is_moderator = 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM users where is_moderator = 1", nativeQuery = true)
     User findUserInfo(User id);
 
-    @Query(value="SELECT id FROM users where email = ?1 and password = ?2", nativeQuery = true)
+    @Query(value = "SELECT id FROM users where email = ?1 and password = ?2", nativeQuery = true)
     List<Integer> findAuth(String email, String password);
 
     Optional<User> findById(int id);
@@ -32,7 +32,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "UPDATE `users` SET `password` = ?1 WHERE (`code` = ?2);", nativeQuery = true)
     void newPassword(@Param("password") String password, @Param("code") String code);
 
-    @Query(value="SELECT code FROM users where code = ?1", nativeQuery = true)
+    @Query(value = "SELECT code FROM users where code = ?1", nativeQuery = true)
     List<String> findByCode(String code);
 
     @Modifying

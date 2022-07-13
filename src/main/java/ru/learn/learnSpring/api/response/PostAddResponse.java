@@ -10,6 +10,6 @@ import java.util.Map;
 public class PostAddResponse {
 
     private boolean result;
-    private Map<String, String> errors;
 
+    private Map<String, String> errors;
 }

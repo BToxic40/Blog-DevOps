@@ -23,7 +23,6 @@ public interface TagsRepository extends CrudRepository<Tag, Integer> {
     @Query(value = "SELECT name FROM tags where id = ?1", nativeQuery = true)
     String findTagsById(Integer id);
 
-
     @Query(value = "SELECT t.name, COUNT(t.name) as postsCount FROM spring.tags as t " +
             "JOIN spring.tag2post as t2p ON  t.id = t2p.tag_id " +
             "JOIN posts as p ON  p.id = t2p.post_id " +
@@ -33,5 +32,4 @@ public interface TagsRepository extends CrudRepository<Tag, Integer> {
             "ORDER BY postsCount DESC " +
             "LIMIT 20;", nativeQuery = true)
     List<TagWithCount> findTagsWithPostsCount(String query);
-
 }

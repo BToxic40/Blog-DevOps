@@ -8,6 +8,6 @@ import lombok.RequiredArgsConstructor;
 public class TagResponse {
 
     private final String name;
-    private final double weight;
 
+    private final double weight;
 }

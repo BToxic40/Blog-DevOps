@@ -8,10 +8,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RegisterErrorResponse {
-    private String e_mail;
-    private String password;
-    private String name;
-    private String captcha;
-    private String captcha_code;
 
+    private String e_mail;
+
+    private String password;
+
+    private String name;
+
+    private String captcha;
+
+    private String captcha_code;
 }

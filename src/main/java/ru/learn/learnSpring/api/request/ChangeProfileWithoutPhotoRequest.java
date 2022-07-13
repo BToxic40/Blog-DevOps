@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ChangeProfileWithoutPhotoRequest {
+
     private String name;
     private String email;
     private String password;

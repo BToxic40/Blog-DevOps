@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface PostCommentRepository extends JpaRepository<PostComments, Integer> {
-    @Query(value ="select p from post_comments p WHERE id = :id", nativeQuery = true)
+    @Query(value = "select p from post_comments p WHERE id = :id", nativeQuery = true)
     Optional<PostComments> findOneById(@Param("id") Integer id);
-
 }

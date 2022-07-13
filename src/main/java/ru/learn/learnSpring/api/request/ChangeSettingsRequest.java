@@ -8,8 +8,10 @@ public class ChangeSettingsRequest {
 
     @JsonProperty("STATISTICS_IS_PUBLIC")
     private boolean statisticsIsPublic;
+
     @JsonProperty("POST_PREMODERATION")
     private boolean postPremoderation;
+
     @JsonProperty("MULTIUSER_MODE")
     private boolean multiuserMode;
 }

@@ -8,5 +8,6 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class TagListResponse {
+
     private final List<TagResponse> tags;
 }

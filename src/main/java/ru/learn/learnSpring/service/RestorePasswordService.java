@@ -16,7 +16,6 @@ public class RestorePasswordService {
     private final UserRepository userRepository;
     private final CaptchaRepository captchaRepository;
 
-
     public RestorePasswordService(UserRepository usersRepository, CaptchaRepository captchaRepository) {
         this.userRepository = usersRepository;
         this.captchaRepository = captchaRepository;

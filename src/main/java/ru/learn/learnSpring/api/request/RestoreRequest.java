@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RestoreRequest {
-    private String email;
 
+    private String email;
 }

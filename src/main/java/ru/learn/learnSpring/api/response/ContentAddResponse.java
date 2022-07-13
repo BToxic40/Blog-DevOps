@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContentAddResponse implements Response {
+
     private boolean result;
+
     private ContentAddErrors errors;
 }
