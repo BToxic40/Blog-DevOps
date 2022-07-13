@@ -1,16 +1,13 @@
 package ru.learn.learnSpring.api.response;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.stereotype.Component;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@Getter
-@Setter
-@Component
+@Data
+@RequiredArgsConstructor
 public class TagListResponse {
 
-    private List<TagResponse> tags;
-
+    private final List<TagResponse> tags;
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class BaseResponse {
    public static final BaseResponse successResponse = new BaseResponse(true);
+   public static final BaseResponse failResponse = new BaseResponse(false);
 
    public BaseResponse(boolean isSuccess) {
       this.isSuccess = isSuccess;

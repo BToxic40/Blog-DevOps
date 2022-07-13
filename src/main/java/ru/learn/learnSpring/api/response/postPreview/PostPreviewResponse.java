@@ -23,6 +23,8 @@ public class PostPreviewResponse {
 
     private int viewCount;
 
+    private int commentCount;
+
     private boolean active;
 
     private String text;

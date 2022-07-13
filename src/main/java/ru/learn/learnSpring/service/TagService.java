@@ -1,31 +1,53 @@
 package ru.learn.learnSpring.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.learn.learnSpring.api.response.TagListResponse;
 import ru.learn.learnSpring.api.response.TagResponse;
+import ru.learn.learnSpring.model.TagWithCount;
+import ru.learn.learnSpring.model.repository.PostRepository;
+import ru.learn.learnSpring.model.repository.Tag2postRepository;
+import ru.learn.learnSpring.model.repository.TagsRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class TagService {
+    private final PostRepository postRepository;
+    private final TagsRepository tagRepository;
+    private final Tag2postRepository tag2postRepository;
 
-    public TagListResponse getTagList(String searchQuery) {
-        TagResponse tagResponse = new TagResponse();
-        tagResponse.setName("tags");
-        tagResponse.setWeight(0.7);
+    public TagListResponse getTagList(String query) {
+        return new TagListResponse(calculateWeightTag(query));
+    }
 
-        TagResponse tagResponse2 = new TagResponse();
-        tagResponse2.setName("Java");
-        tagResponse2.setWeight(0.5);
+    private List<TagResponse> calculateWeightTag(String query) {
+        int countPublishedPosts = postRepository.countPublishedPosts();
+        if (countPublishedPosts == 0) {
+            return Collections.emptyList();
+        }
 
-        List<TagResponse> tagListResponses = new ArrayList<>();
-        tagListResponses.add(tagResponse);
-        tagListResponses.add(tagResponse2);
+        List<TagWithCount> tagWithCountList = tagRepository.findTagsWithPostsCount(query);
+
+        if (tagWithCountList.isEmpty()) {
+            return Collections.emptyList();
+        }
 
 
-        TagListResponse tagList = new TagListResponse();
-        tagList.setTags(tagListResponses);
-         return tagList;
+        double k = 1.0 / ((double) tagWithCountList.get(0).getPostsCount() / countPublishedPosts);
+
+        List<TagResponse> tagResponseList = new ArrayList<>();
+        for (TagWithCount tagWithCount : tagWithCountList) {
+            tagResponseList.add(
+                    new TagResponse(tagWithCount.getName(),
+                            k * ((double) tagWithCount.getPostsCount() / countPublishedPosts)));
+        }
+
+        return tagResponseList;
     }
 }

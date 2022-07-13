@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "post_votes")
-public class PostVotes {
+public class PostVote {
 
     @Id
     @Column(name = "id")
@@ -33,10 +33,9 @@ public class PostVotes {
 
     @Column(name = "time", columnDefinition = "DATETIME")
     @NotNull
-    private LocalDateTime time;
+    private Date time;
 
     @Column(name = "value", columnDefinition = "TINYINT")
     @NotNull
     private int value;
-
 }

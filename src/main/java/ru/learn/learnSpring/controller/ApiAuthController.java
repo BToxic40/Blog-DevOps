@@ -1,47 +1,37 @@
 package ru.learn.learnSpring.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ru.learn.learnSpring.api.request.LoginRequest;
 import ru.learn.learnSpring.api.request.RegistrationRequest;
+import ru.learn.learnSpring.api.request.RestoreRequest;
 import ru.learn.learnSpring.api.response.BaseResponse;
 import ru.learn.learnSpring.api.response.CaptchaResponse;
 import ru.learn.learnSpring.api.response.LoginResponse;
-import ru.learn.learnSpring.api.response.UserCheckResponse;
-import ru.learn.learnSpring.model.repository.UserRepository;
+import ru.learn.learnSpring.api.response.LogoutResponse;
 import ru.learn.learnSpring.service.AuthService;
 import ru.learn.learnSpring.service.CaptchaService;
+import ru.learn.learnSpring.service.RestorePasswordService;
+import ru.learn.learnSpring.service.UserService;
 
 import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class ApiAuthController {
 
     private final AuthService authService;
+    private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final CaptchaService captchaService;
-    private final UserRepository userRepository;
-
-    @Autowired
-    public ApiAuthController(AuthService authService, AuthenticationManager authenticationManager, CaptchaService captchaService, UserRepository userRepository) {
-        this.authService = authService;
-        this.authenticationManager = authenticationManager;
-        this.captchaService = captchaService;
-        this.userRepository = userRepository;
-    }
-
-//    @GetMapping("/check")
-//    public ResponseEntity<CheckResponse> checkUserAuth() {
-//        return ResponseEntity.ok(authService.check());
-//    }
+    private final RestorePasswordService restorePasswordService;
 
     @GetMapping("/captcha")
     public ResponseEntity<CaptchaResponse> generateCaptcha() {
@@ -60,7 +50,7 @@ public class ApiAuthController {
         SecurityContextHolder.getContext().setAuthentication(auth);
         User user = (User) auth.getPrincipal();
 
-        return ResponseEntity.ok(getLoginResponse(user.getUsername()));
+        return ResponseEntity.ok(userService.getLogin(user.getUsername()));
     }
 
     @GetMapping("/logout")
@@ -74,23 +64,12 @@ public class ApiAuthController {
         if (principal == null) {
             return ResponseEntity.ok(new LoginResponse());
         }
-        return ResponseEntity.ok(getLoginResponse(principal.getName()));
+        return ResponseEntity.ok(userService.getLogin(principal.getName()));
     }
 
-    private LoginResponse getLoginResponse(String email) {
-        ru.learn.learnSpring.model.User currentUser = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
-
-        UserCheckResponse userResponse = new UserCheckResponse();
-        userResponse.setEmail(currentUser.getEmail());
-        userResponse.setModeration(currentUser.getIsModerator() == 1);
-        userResponse.setSettings(currentUser.getIsModerator() == 1);
-        userResponse.setId(currentUser.getId());
-        userResponse.setName(currentUser.getName());
-
-        LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setResult(true);
-        loginResponse.setUserLoginResponse(userResponse);
-        return loginResponse;
+    @PostMapping("/restore")
+    public LogoutResponse Restore(@RequestBody RestoreRequest restoreRequest) {
+        return restorePasswordService.restorePassword(restoreRequest.getEmail());
     }
 }
 

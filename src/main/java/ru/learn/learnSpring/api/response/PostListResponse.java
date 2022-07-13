@@ -15,6 +15,6 @@ import java.util.List;
 public class PostListResponse {
 
     private long count;
-    private List<PostPreviewResponse> posts;
 
+    private List<PostPreviewResponse> posts;
 }

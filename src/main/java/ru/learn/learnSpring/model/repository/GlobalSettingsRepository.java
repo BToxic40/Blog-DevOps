@@ -6,5 +6,4 @@ import ru.learn.learnSpring.model.GlobalSettings;
 
 @Repository
 public interface GlobalSettingsRepository extends JpaRepository<GlobalSettings, Integer> {
-
 }

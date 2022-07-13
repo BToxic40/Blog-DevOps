@@ -31,5 +31,4 @@ public class GlobalSettings {
     @Column(name = "value")
     @NotNull
     private String value;
-
 }

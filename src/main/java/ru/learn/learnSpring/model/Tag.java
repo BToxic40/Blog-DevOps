@@ -6,14 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "tags")
-public class Tags {
+public class Tag {
 
     @Id
     @Column(name = "id")
@@ -24,12 +23,4 @@ public class Tags {
     @Column(name = "name")
     @NotNull
     private String name;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinTable(name = "tag2post",
-            joinColumns = @JoinColumn(name = "tag_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id"))
-    private List<Post> posts;
-
-
 }

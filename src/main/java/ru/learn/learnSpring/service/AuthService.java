@@ -2,36 +2,29 @@ package ru.learn.learnSpring.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.learn.learnSpring.api.request.RegistrationRequest;
 import ru.learn.learnSpring.api.response.BaseResponse;
 import ru.learn.learnSpring.api.response.ErrorResponse;
-import ru.learn.learnSpring.model.CaptchaCode;
 import ru.learn.learnSpring.model.User;
-import ru.learn.learnSpring.model.repository.CaptchaRepository;
 import ru.learn.learnSpring.model.repository.UserRepository;
 import ru.learn.learnSpring.utils.EmailValidator;
+import ru.learn.learnSpring.utils.Validators;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
 public class AuthService {
-
-    public static final long UPDATE_FOR_CAPTCHA = 3600;
-    private final CaptchaRepository captchaRepository;
-    private final CaptchaService captchaService;
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
-
+    private final CaptchaService captchaService;
 
     public BaseResponse register(RegistrationRequest request) {
         Map<String, String> errors = collectErrors(request);
@@ -42,14 +35,22 @@ public class AuthService {
 
         User userForReg = createUser(request);
         userRepository.save(userForReg);
-        deleteOldCaptcha();
 
         return BaseResponse.successResponse;
     }
 
+    public Optional<User> getCurrentUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(email);
+    }
+
+    public String encryptPassword(String password) {
+        return encoder.encode(password);
+    }
+
     private Map<String, String> collectErrors(RegistrationRequest request) {
         Map<String, String> errors = new HashMap<>();
-        if (!isCaptchaValid(request)) {
+        if (!captchaService.isCaptchaValid(request)) {
             errors.put("captcha", "Код с картинки введён неверно");
         }
 
@@ -57,13 +58,11 @@ public class AuthService {
             errors.put("email", "Неверный формат email");
         }
 
-        if (request.getPassword().length() < 6) {
-            errors.put("password", "Пароль короче 6-ти символов");
-        }
+        Validators.password(request.getPassword())
+                .ifPresent(entry -> errors.put(entry.getKey(), entry.getValue()));
 
-        if (request.getName().length() > 20) {
-            errors.put("name", "Имя не должно превышать 20 символов");
-        }
+        Validators.name(request.getName())
+                .ifPresent(entry -> errors.put(entry.getKey(), entry.getValue()));
 
         Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
 
@@ -83,37 +82,5 @@ public class AuthService {
         userForReg.setIsModerator(0);
         userForReg.setRegTime(LocalDateTime.now());
         return userForReg;
-    }
-
-    boolean isCaptchaValid(RegistrationRequest request) {
-
-        List<CaptchaCode> captchaCodes =
-                new ArrayList<>(captchaRepository.findBySecretCode(request.getCaptchaSecretCode()));
-
-        if (captchaCodes.isEmpty()) {
-            return false;
-        }
-
-        CaptchaCode captchaCode = captchaCodes.get(0);
-        LocalDateTime startTime = LocalDateTime.now();
-        LocalDateTime endTime = captchaCode.getTime();
-        long hour = ChronoUnit.HOURS.between(startTime, endTime);
-
-        if (hour >= UPDATE_FOR_CAPTCHA) {
-            return false;
-        }
-
-        return captchaCode.getCode().equals(request.getUserInputCaptcha());
-    }
-
-    @Scheduled(fixedDelay = 1800000)
-    public void deleteOldCaptcha() {
-        captchaRepository.delete();
-    }
-
-    public Optional<User> getCurrentUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(email);
-
     }
 }

@@ -19,7 +19,7 @@ public class ApiTagController {
     }
 
     @GetMapping("/tag")
-    public ResponseEntity<TagListResponse> tagListResponse(@RequestParam(required = false) String query) {
+    public ResponseEntity<TagListResponse> tagListResponse(@RequestParam(required = false, defaultValue = "") String query) {
         return ResponseEntity.ok(tagService.getTagList(query));
     }
 }

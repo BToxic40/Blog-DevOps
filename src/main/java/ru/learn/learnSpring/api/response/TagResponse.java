@@ -1,13 +1,13 @@
 package ru.learn.learnSpring.api.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@RequiredArgsConstructor
 public class TagResponse {
 
-    private String name;
-    private double weight;
+    private final String name;
 
+    private final double weight;
 }

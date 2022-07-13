@@ -11,13 +11,12 @@ import java.util.TimeZone;
 @EnableScheduling
 public class LearnSpringApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LearnSpringApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(LearnSpringApplication.class, args);
+    }
 
-	@PostConstruct
-	public void init() {
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-	}
-
+    @PostConstruct
+    public void init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
 }

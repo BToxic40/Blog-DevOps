@@ -10,5 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CheckResponse extends BaseResponse{
+
     private UserCheckResponse user;
 }

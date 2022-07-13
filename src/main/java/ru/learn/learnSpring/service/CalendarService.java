@@ -1,25 +1,43 @@
 package ru.learn.learnSpring.service;
 
 import org.springframework.stereotype.Service;
-import ru.learn.learnSpring.api.response.CalendarDaysResponse;
+import ru.learn.learnSpring.api.response.PostCalendarResponse;
+import ru.learn.learnSpring.model.repository.PostRepository;
 
-import java.util.HashMap;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 public class CalendarService {
-    public CalendarDaysResponse calendarDaysResponse(String year) {
+    private final PostRepository postRepository;
 
-        int[] years = new int[]{2015, 2016};
+    public CalendarService(PostRepository postRepository) {
+        this.postRepository = postRepository;
 
-        Map<String, Integer> amountPostsByDays = new HashMap<>();
-        amountPostsByDays.put("2022-04-01", 3);
-        amountPostsByDays.put("2022-04-02", 50);
-
-        CalendarDaysResponse calendarDaysResponse = new CalendarDaysResponse();
-        calendarDaysResponse.setYears(years);
-        calendarDaysResponse.setPosts(amountPostsByDays);
-        return calendarDaysResponse;
     }
 
+    public PostCalendarResponse getPosts(Integer year) {
+
+        if (year == 0) {
+            year = Calendar.getInstance().get(Calendar.YEAR);
+        }
+
+        List<String> date = postRepository.findYear(year);
+        date.forEach(System.out::println);
+        List<Integer> dateCount = postRepository.findYearCount(year);
+
+        PostCalendarResponse postCalendar = new PostCalendarResponse();
+        Map<String, Integer> postsByDate = new TreeMap<>();
+        for (int i = 0; i < date.size(); i++) {
+            postsByDate.put(date.get(i), dateCount.get(i));
+            System.out.println(date.get(i));
+        }
+        postCalendar.setPosts(postsByDate);
+        List<Integer> yearsList = postRepository.findYearsForCalendar();
+        postCalendar.setYears(yearsList);
+
+        return postCalendar;
+    }
 }

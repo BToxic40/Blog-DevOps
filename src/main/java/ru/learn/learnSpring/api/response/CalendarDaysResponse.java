@@ -8,6 +8,8 @@ import java.util.Map;
 @Setter
 @Getter
 public class CalendarDaysResponse {
+
     private int[] years;
+
     private Map<String, Integer> posts;
 }

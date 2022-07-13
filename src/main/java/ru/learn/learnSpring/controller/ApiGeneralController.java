@@ -1,35 +1,23 @@
 package ru.learn.learnSpring.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import ru.learn.learnSpring.api.response.CalendarDaysResponse;
+import org.springframework.web.bind.annotation.*;
+import ru.learn.learnSpring.api.request.ModerationRequest;
+import ru.learn.learnSpring.api.response.BaseResponse;
 import ru.learn.learnSpring.api.response.InitResponse;
+import ru.learn.learnSpring.api.response.PostCalendarResponse;
 import ru.learn.learnSpring.service.CalendarService;
-import ru.learn.learnSpring.service.SettingsService;
-
-import java.util.Map;
+import ru.learn.learnSpring.service.ModerationService;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class ApiGeneralController {
 
-    private final SettingsService settingsService;
     private final InitResponse initResponse;
     private final CalendarService calendarService;
-
-    public ApiGeneralController(SettingsService settingsService, InitResponse initResponse, CalendarService calendarService) {
-        this.settingsService = settingsService;
-        this.initResponse = initResponse;
-        this.calendarService = calendarService;
-    }
-
-    @GetMapping("/settings")
-    public ResponseEntity<Map<String, Boolean>> settings() {
-        return ResponseEntity.ok(settingsService.getGlobalSettings());
-    }
+    private final ModerationService moderationService;
 
     @GetMapping("/init")
     public ResponseEntity<InitResponse> init(){
@@ -37,8 +25,13 @@ public class ApiGeneralController {
     }
 
     @GetMapping("/calendar")
-    public ResponseEntity<CalendarDaysResponse> calendar(@RequestParam (required = false) String year){
-        return ResponseEntity.ok(calendarService.calendarDaysResponse(year));
+    private ResponseEntity<PostCalendarResponse> calendar(
+            @RequestParam(value = "year", defaultValue = "0") Integer years) {
+        return ResponseEntity.ok(calendarService.getPosts(years));
     }
 
+    @PostMapping("/moderation")
+    public BaseResponse Restore(@RequestBody ModerationRequest moderationRequest) {
+        return moderationService.decisionModeration(moderationRequest.getPostId(), moderationRequest.getDecision());
+    }
 }
