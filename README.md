@@ -1,5 +1,6 @@
 <h1 align="center">Blog DevPub</h1>
 
+![alt text](https://github.com/BToxic40/SocialNetwork/blob/dev/infoImage.jpg)
 
 ## Описание
 Blog - web приложение для ведения блогов, в основе которого backen на Java Spring и фронтенд на Vue.js(написан на стороне). Клиент серверный обмен организован на REST API.
