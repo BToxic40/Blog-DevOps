@@ -34,7 +34,6 @@ public class CaptchaService {
     public final static String CAPTCHA_SYMBOLS = "abcdfgkp12356789";
     public final static String BASE64_HEADER = "data:image/png;base64, ";
     public static final int TIME_TO_DELETE = 1800000;
-//    private final UserRepository userRepository;
 
     public CaptchaResponse createCaptcha() {
 
