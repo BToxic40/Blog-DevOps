@@ -53,7 +53,7 @@ public class ApiPostController {
     public ResponseEntity<PostListResponse> postByTag(@RequestParam String tag,
                                                       @RequestParam(required = false, defaultValue = "0") int offset,
                                                       @RequestParam(required = false, defaultValue = "10") int limit) {
-        return ResponseEntity.ok(postService.byTag(tag, offset, limit));
+        return ResponseEntity.ok(postService.byTag(tag));
     }
 
     @GetMapping("/{id}")
@@ -68,7 +68,7 @@ public class ApiPostController {
         return ResponseEntity.ok(postService.my(status, offset, limit));
     }
 
-    @PostMapping("/{id:\\d+}")
+    @PostMapping("/{id}")
     public ResponseEntity<PostListResponse> editPostById(
             @RequestBody PostListRequest postListRequest,
             @PathVariable(value = "id") int id,
@@ -81,7 +81,7 @@ public class ApiPostController {
         return postService.createPost(newPostRequest);
     }
 
-    @DeleteMapping("/{id:\\d+}")
+    @DeleteMapping("/{id}")
     public void deletePost(@PathVariable(name = "id") int id) {
         postService.delete(id);
     }

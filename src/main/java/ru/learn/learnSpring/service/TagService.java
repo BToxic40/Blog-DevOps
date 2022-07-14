@@ -7,7 +7,6 @@ import ru.learn.learnSpring.api.response.TagListResponse;
 import ru.learn.learnSpring.api.response.TagResponse;
 import ru.learn.learnSpring.model.TagWithCount;
 import ru.learn.learnSpring.model.repository.PostRepository;
-import ru.learn.learnSpring.model.repository.Tag2postRepository;
 import ru.learn.learnSpring.model.repository.TagsRepository;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import java.util.List;
 public class TagService {
     private final PostRepository postRepository;
     private final TagsRepository tagRepository;
-    private final Tag2postRepository tag2postRepository;
 
     public TagListResponse getTagList(String query) {
         return new TagListResponse(calculateWeightTag(query));
