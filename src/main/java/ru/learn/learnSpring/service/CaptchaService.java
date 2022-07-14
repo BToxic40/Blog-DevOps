@@ -6,15 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.imgscalr.Scalr;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.learn.learnSpring.api.request.RegistrationRequest;
 import ru.learn.learnSpring.api.response.CaptchaResponse;
 import ru.learn.learnSpring.exception.CanNotCreateCaptchaException;
 import ru.learn.learnSpring.model.CaptchaCode;
-import ru.learn.learnSpring.model.User;
 import ru.learn.learnSpring.model.repository.CaptchaRepository;
-import ru.learn.learnSpring.model.repository.UserRepository;
 
 import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
@@ -37,7 +34,7 @@ public class CaptchaService {
     public final static String CAPTCHA_SYMBOLS = "abcdfgkp12356789";
     public final static String BASE64_HEADER = "data:image/png;base64, ";
     public static final int TIME_TO_DELETE = 1800000;
-    private final UserRepository userRepository;
+//    private final UserRepository userRepository;
 
     public CaptchaResponse createCaptcha() {
 
@@ -65,12 +62,6 @@ public class CaptchaService {
     @Scheduled(fixedDelay = TIME_TO_DELETE)
     public void deleteOldCaptcha() {
         captchaRepository.delete();
-    }
-
-    public Optional<User> getCurrentUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(email);
-
     }
 
     boolean isCaptchaValid(RegistrationRequest request) {

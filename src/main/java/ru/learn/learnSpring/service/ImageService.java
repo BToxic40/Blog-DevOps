@@ -27,6 +27,7 @@ import java.util.UUID;
 public class ImageService {
 
     public static final int MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
     @Value("${app.files.images.folder}")
     private String uploadFolder;
 

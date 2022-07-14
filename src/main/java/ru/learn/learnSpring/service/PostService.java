@@ -38,7 +38,8 @@ import java.util.stream.Collectors;
 public class PostService {
     public static final int LIKE_VALUE = 1;
     public static final int DISLIKE_VALUE = -1;
-    public static final int MAX_ANNOUNCE_LENGTH = 150;
+
+//    public static final int MAX_ANNOUNCE_LENGTH = 150;
     private final PostRepository postRepository;
     private final PostVotesRepository postVotesRepository;
     private final TagsRepository tagsRepository;
@@ -161,10 +162,8 @@ public class PostService {
         return convertToListPostResponse(page);
     }
 
-    public PostListResponse byTag(String tag, int offset, int limit) {
-        int pageNumber = offset / limit;
+    public PostListResponse byTag(String tag) {
 
-        Pageable pageable = PageRequest.of(pageNumber, limit);
         Integer tagId = tagsRepository.findTag(tag).orElseThrow();
         List<Integer> postsIds = tagsRepository.findIdsPostsByTagId(tagId);
 
