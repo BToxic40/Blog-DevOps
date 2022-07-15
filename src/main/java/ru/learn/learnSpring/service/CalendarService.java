@@ -1,5 +1,6 @@
 package ru.learn.learnSpring.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.learn.learnSpring.api.response.PostCalendarResponse;
@@ -12,13 +13,9 @@ import java.util.TreeMap;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CalendarService {
     private final PostRepository postRepository;
-
-    public CalendarService(PostRepository postRepository) {
-        this.postRepository = postRepository;
-
-    }
 
     public PostCalendarResponse getPosts(Integer year) {
 

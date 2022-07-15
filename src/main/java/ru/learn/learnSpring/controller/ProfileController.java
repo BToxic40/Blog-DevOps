@@ -10,6 +10,8 @@ import ru.learn.learnSpring.api.request.ChangeProfileWithoutPhotoRequest;
 import ru.learn.learnSpring.api.response.BaseResponse;
 import ru.learn.learnSpring.service.ProfileService;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/profile/my")
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class ProfileController {
     @PreAuthorize("hasAuthority('user:write')")
     public BaseResponse changeProfile(@RequestParam MultipartFile photo,
                               @RequestParam String name,
-                              @RequestParam(required = false) String password) {
+                              @RequestParam(required = false) String password) throws IOException {
         log.info("name: {} photosize: {}", photo.getOriginalFilename(), photo.getSize());
         log.info("name:{},pass:{}", name, password);
         log.info("меняют профиль с новой фото");

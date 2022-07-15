@@ -3,7 +3,7 @@
 ![alt text](https://github.com/BToxic40/SocialNetwork/blob/dev/infoImage.jpg)
 
 ## Описание
-Blog - web приложение для ведения блогов, в основе которого backend на Java Spring и frontend на Vue.js(написан на стороне). Клиент серверный обмен организован на REST API.
+Blog - web приложение для ведения блогов, в основе которого backend на Java Spring и frontend на Vue.js(написан на стороне). Клиент серверный обмен организован на REST API. Проект развернут в облаке Heroku, БД развернута в облаке Beget.
 
 ## Реализованные функции
 - регистрация пользователей

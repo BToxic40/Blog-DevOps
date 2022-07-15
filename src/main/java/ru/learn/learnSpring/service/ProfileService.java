@@ -11,6 +11,7 @@ import ru.learn.learnSpring.model.User;
 import ru.learn.learnSpring.model.repository.UserRepository;
 import ru.learn.learnSpring.utils.Validators;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -53,7 +54,7 @@ public class ProfileService {
 
         return BaseResponse.successResponse;
     }
-    public BaseResponse change(MultipartFile photo, String name, String password) {
+    public BaseResponse change(MultipartFile photo, String name, String password) throws IOException {
         ChangeProfileWithoutPhotoRequest withoutPhotoRequest = new ChangeProfileWithoutPhotoRequest();
         withoutPhotoRequest.setPassword(password);
         withoutPhotoRequest.setName(name);

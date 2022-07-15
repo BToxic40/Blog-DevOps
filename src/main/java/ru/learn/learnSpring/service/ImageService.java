@@ -49,7 +49,7 @@ public class ImageService {
             String nameImage = randomNameGeneration();
             writeImageInServer(image, nameImage);
 
-            return "/upload/" + nameImage + ".png";
+            return "./upload/" + nameImage + ".png";
     }
 
     public String randomNameGeneration() {

@@ -21,6 +21,7 @@ public class TagService {
     private final TagsRepository tagRepository;
 
     public TagListResponse getTagList(String query) {
+        log.info("tag = {}", query);
         return new TagListResponse(calculateWeightTag(query));
     }
 
@@ -45,7 +46,6 @@ public class TagService {
                     new TagResponse(tagWithCount.getName(),
                             k * ((double) tagWithCount.getPostsCount() / countPublishedPosts)));
         }
-
         return tagResponseList;
     }
 }
