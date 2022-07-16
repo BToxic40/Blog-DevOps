@@ -23,4 +23,10 @@ public class Tag {
     @Column(name = "name")
     @NotNull
     private String name;
+
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+//    @JoinTable(name = "tag2post",
+//            joinColumns = @JoinColumn(name = "tag_id"),
+//            inverseJoinColumns = @JoinColumn(name = "post_id"))
+//    private List<Post> posts;
 }

@@ -186,7 +186,7 @@ public class PostService {
     public SinglePostResponse findPostById(int id) {
         Post post = postRepository.findById(id)
                 .orElseThrow();
-        post.setViewCount(post.getViewCount() + 1);
+        post.setViewCount(post.getViewCount());//+1
         postRepository.save(post);
         return convertToSinglePostResponse(post);
     }
