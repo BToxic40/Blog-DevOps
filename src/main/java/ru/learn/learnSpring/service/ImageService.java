@@ -28,10 +28,10 @@ public class ImageService {
 
     public static final int MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-    @Value("${app.files.images.folder}")
+    @Value("${.upload.uf}")
     private String uploadFolder;
 
-    @Value("${app.files.images.folder.posts}")
+    @Value("${.upload.pf}")
     private String postsFolder;
 
     public String addImage(MultipartFile image)  {
