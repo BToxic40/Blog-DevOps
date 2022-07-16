@@ -102,12 +102,6 @@
                                 <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
                                 <java.source>${maven.compiler.source}</java.source>
                                 <java.target>${maven.compiler.target}</java.target>
-                                <excludes>
-                                    <exclude>
-                                        <groupId>org.projectlombok</groupId>
-                                        <artifactId>lombok</artifactId>
-                                    </exclude>
-                                </excludes>
                             </additionalProperties>
                         </configuration>
                     </execution>
