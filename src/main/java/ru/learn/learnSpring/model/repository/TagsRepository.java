@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TagsRepository extends CrudRepository<Tag, Integer> {
-    List<Tag> findAllByOrderByIdDesc();
 
     @Query(value = "SELECT * FROM tags where name = ?1", nativeQuery = true)
     Optional<Tag> findByName(String nameTag);
@@ -17,14 +16,11 @@ public interface TagsRepository extends CrudRepository<Tag, Integer> {
     @Query(value = "SELECT id FROM tags where name = ?1 LIMIT 1", nativeQuery = true)
     Optional<Integer> findTag(String tag);
 
-    @Query(value = "SELECT tp.post_id FROM spring.tag2post as tp WHERE tag_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT tp.post_id FROM tag2post as tp WHERE tag_id = ?1", nativeQuery = true)
     List<Integer> findIdsPostsByTagId(Integer tag);
 
-    @Query(value = "SELECT name FROM tags where id = ?1", nativeQuery = true)
-    String findTagsById(Integer id);
-
-    @Query(value = "SELECT t.name, COUNT(t.name) as postsCount FROM spring.tags as t " +
-            "JOIN spring.tag2post as t2p ON  t.id = t2p.tag_id " +
+    @Query(value = "SELECT t.name, COUNT(t.name) as postsCount FROM tags as t " +
+            "JOIN tag2post as t2p ON  t.id = t2p.tag_id " +
             "JOIN posts as p ON  p.id = t2p.post_id " +
             "WHERE t.name LIKE %:query% " +
             "AND is_active=1 AND moderation_status='ACCEPTED' " +
