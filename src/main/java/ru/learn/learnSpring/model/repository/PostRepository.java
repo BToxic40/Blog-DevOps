@@ -64,17 +64,17 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value = "SELECT * FROM posts " +
             "where is_active = 1 AND moderation_status = ?1 " +
             "limit ?2 offset ?3", nativeQuery = true)
-    public List<Post> findByStatus(String status, int limit, int offset);
+    List<Post> findByStatus(String status, int limit, int offset);
 
     @Query(value = "SELECT * FROM posts " +
             "where moderation_status = ?1 " +
             "limit ?2 offset ?3", nativeQuery = true)
-    public List<Post> findForModerationByStatus(String status, int limit, int offset);
+    List<Post> findForModerationByStatus(String status, int limit, int offset);
 
     @Modifying
     @Transactional
     @Query(value = "UPDATE `posts` SET `moderation_status` = ?1 WHERE (`id` = ?2)", nativeQuery = true)
-    public void changeStatus(@Param("status") String status, @Param("postId") Integer postId);
+    void changeStatus(@Param("status") String status, @Param("postId") Integer postId);
 
     @Query("select count(*) from Post p WHERE p.moderationStatus = ?1")
     int getPostsForModerationCount(ModerationStatus status);
@@ -95,7 +95,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value = "from Post p WHERE p.time <= now() AND id = :id")
     Post findPostById(@Param("id") Integer id);
 
-    @Query(value = "SELECT date(date(time) + 1)  FROM posts " +
+    @Query(value = "SELECT date(date(time))  FROM posts " +
             "where year(time)=?1 AND is_active = 1 AND moderation_status = 'ACCEPTED' " +
             "group by date(time) " +
             "order by time", nativeQuery = true)

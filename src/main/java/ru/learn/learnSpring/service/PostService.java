@@ -162,10 +162,7 @@ public class PostService {
         return convertToListPostResponse(page);
     }
 
-    public PostListResponse byTag(String tag, int offset, int limit) {
-        int pageNumber = offset / limit;
-
-        Pageable pageable = PageRequest.of(pageNumber, limit);
+    public PostListResponse byTag(String tag) {
 
         Integer tagId = tagsRepository.findTag(tag).orElseThrow();
         List<Integer> postsIds = tagsRepository.findIdsPostsByTagId(tagId);

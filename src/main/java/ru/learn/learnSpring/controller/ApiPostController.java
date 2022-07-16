@@ -53,7 +53,7 @@ public class ApiPostController {
     public ResponseEntity<PostListResponse> postByTag(@RequestParam String tag,
                                                       @RequestParam(required = false, defaultValue = "0") int offset,
                                                       @RequestParam(required = false, defaultValue = "10") int limit) {
-        return ResponseEntity.ok(postService.byTag(tag, offset, limit));
+        return ResponseEntity.ok(postService.byTag(tag));
     }
 
     @GetMapping("/{id}")
