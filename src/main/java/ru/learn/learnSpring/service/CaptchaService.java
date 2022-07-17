@@ -30,9 +30,9 @@ public class CaptchaService {
     public static final String CAPTCHA_FORMAT_IMAGE = "png";
     public static final long UPDATE_FOR_CAPTCHA = 3600;
     private final CaptchaRepository captchaRepository;
-    public final static int CAPTCHA_LENGTH = 100;
-    public final static String CAPTCHA_SYMBOLS = "abcdfgkp12356789";
-    public final static String BASE64_HEADER = "data:image/png;base64, ";
+    public static final int CAPTCHA_LENGTH = 100;
+    public static final String CAPTCHA_SYMBOLS = "abcdfgkp12356789";
+    public static final String BASE64_HEADER = "data:image/png;base64, ";
     public static final int TIME_TO_DELETE = 1800000;
 
     public CaptchaResponse createCaptcha() {
