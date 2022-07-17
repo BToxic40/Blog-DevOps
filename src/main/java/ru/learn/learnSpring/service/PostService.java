@@ -29,7 +29,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,8 +41,9 @@ import java.util.stream.Collectors;
 public class PostService {
     public static final int LIKE_VALUE = 1;
     public static final int DISLIKE_VALUE = -1;
+    public static final String DATE_YYYY_MM_DD = "\\d{4}-\\d{2}-\\d{2}";
+    public static final int TEXT_TO_PREVIEW = 150;
 
-//    public static final int MAX_ANNOUNCE_LENGTH = 150;
     private final PostRepository postRepository;
     private final PostVotesRepository postVotesRepository;
     private final TagsRepository tagsRepository;
@@ -124,7 +128,7 @@ public class PostService {
         CommentResponse commentResponse = new CommentResponse();
         commentResponse.setId(postComments.getId());
         commentResponse.setText(postComments.getText());
-        commentResponse.setTimestamp(postComments.getTime().getTime() / 1000);
+        commentResponse.setTimestamp(convertMillisecondsToSeconds(postComments.getTime()));
 
         User user = postComments.getUser();
         UserCommentResponse userCommentResponse =
@@ -135,24 +139,15 @@ public class PostService {
 
     public PostListResponse search(PostSearchParameters postSearchParameters) {
         int pageNumber = postSearchParameters.getOffset() / postSearchParameters.getLimit();
-
         Pageable pageable = PageRequest.of(pageNumber, postSearchParameters.getLimit());
         Page<Post> page = postRepository.search(pageable, postSearchParameters.getQuery());
         return convertToListPostResponse(page);
     }
 
-    public PostListResponse delete(int id) {
-        PostDeleteResponse postDeleteResponse = new PostDeleteResponse();
-        Optional<Post> post = postRepository.findById(id);
-        postRepository.deleteById(post);
-        postDeleteResponse.setId(id);
-        return new PostListResponse();
-    }
-
     public PostListResponse byDate(String date, int offset, int limit) {
         int pageNumber = offset / limit;
 
-        if (!date.matches("\\d{4}-\\d{2}-\\d{2}")) {
+        if (!date.matches(DATE_YYYY_MM_DD)) {
             throw new IllegalArgumentException("Формат даты не подходит!");
         }
 
@@ -250,6 +245,10 @@ public class PostService {
         return result;
     }
 
+    private long convertMillisecondsToSeconds(Date date) {
+        return date.getTime() / 1000;
+    }
+
     private int getCurrentUserId() {
         return authService.getCurrentUser()
                 .orElseThrow(CurrentUserNotFoundException::new)
@@ -271,7 +270,7 @@ public class PostService {
     }
 
     private String createAnnounce(String text) {
-        int TEXT_TO_PREVIEW = 150;
+
         if (text.length() <= TEXT_TO_PREVIEW) {
             return text;
         } else {
@@ -292,7 +291,7 @@ public class PostService {
 
         Boolean isPremoderationOn = settingsService.getGlobalSettings().get("POST_PREMODERATION");
 
-        newPost.setModerationStatus(isPremoderationOn ? ModerationStatus.NEW : ModerationStatus.ACCEPTED);
+        newPost.setModerationStatus(Boolean.TRUE.equals(isPremoderationOn) ? ModerationStatus.NEW : ModerationStatus.ACCEPTED);
 
         List<Tag> tagsForNewPost = new ArrayList<>();
         for (String tagName : newPostRequest.getTags()) {

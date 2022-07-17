@@ -34,7 +34,7 @@ public class ImageService {
     @Value("${app.files.images.folder.posts}")
     private String postsFolder;
 
-    public String addImage(MultipartFile image)  {
+    public String addImage(MultipartFile image) {
         PostAddResponse postResponse = new PostAddResponse();
 
         Map<String, String> error = new HashMap<>();
@@ -45,11 +45,11 @@ public class ImageService {
             postResponse.setErrors(error);
             throw new MaxImageSizeException();
         }
-            postResponse.setResult(true);
-            String nameImage = randomNameGeneration();
-            writeImageInServer(image, nameImage);
+        postResponse.setResult(true);
+        String nameImage = randomNameGeneration();
+        writeImageInServer(image, nameImage);
 
-            return "src/upload/" + nameImage + ".png";
+        return "/upload/" + nameImage + ".png";
     }
 
     public String randomNameGeneration() {
@@ -71,10 +71,10 @@ public class ImageService {
             Path path = Path.of(uploadFolder);
             path = path.resolve(postsFolder);
 
-            log.info("путь до папки с изображениями = {}", path.toAbsolutePath());
+            log.info("путь до папки с изображениями = {}", path);
 
             Files.createDirectories(path);
-            ImageIO.write(imageBuffer, "png", new File(path.toAbsolutePath() + "/" + nameImage + ".png"));
+            ImageIO.write(imageBuffer, "png", new File(path + "/" + nameImage + ".png"));
         } catch (IOException e) {
             throw new UploadImageException(e);
         }

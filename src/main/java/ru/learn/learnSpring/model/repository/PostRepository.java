@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.learn.learnSpring.model.ModerationStatus;
 import ru.learn.learnSpring.model.Post;
-import ru.learn.learnSpring.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -79,9 +78,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query("select count(*) from Post p WHERE p.moderationStatus = ?1")
     int getPostsForModerationCount(ModerationStatus status);
 
-    @Query(value = "SELECT COUNT(*) FROM posts where moderation_status = 'NEW'", nativeQuery = true)
-    Integer findByModerationStatus();
-
     @Query(value = "SELECT COUNT(id) FROM posts " +
             "WHERE is_active=1 AND moderation_status='ACCEPTED' AND time < now() ", nativeQuery = true)
     int countPublishedPosts();
@@ -89,8 +85,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     void deleteById(Optional<Post> post);
 
     <S extends Post> void saveAndFlush(int id);
-
-    List<Post> findAllById(Optional<User> id);
 
     @Query(value = "from Post p WHERE p.time <= now() AND id = :id")
     Post findPostById(@Param("id") Integer id);

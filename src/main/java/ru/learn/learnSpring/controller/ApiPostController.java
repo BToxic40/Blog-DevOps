@@ -81,10 +81,10 @@ public class ApiPostController {
         return postService.createPost(newPostRequest);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable(name = "id") int id) {
-        postService.delete(id);
-    }
+//    @DeleteMapping("/{id}")
+//    public void deletePost(@PathVariable(name = "id") int id) {
+//        postService.delete(id);
+//    }
 
     @PostMapping("/like")
     private ResponseEntity<PostVoteResponse> like(@RequestBody PostVoteRequest request) {
