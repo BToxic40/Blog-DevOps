@@ -13,14 +13,13 @@ public class ModerationService {
 
     private final UserRepository userRepository;
     private final PostRepository postRepository;
-
     private final AuthService authService;
 
     public BaseResponse decisionModeration(int postId, String decision) {
         BaseResponse authCheckResponse = new BaseResponse();
 
-        User id = authService.getCurrentUser().orElseThrow();
-        if (userRepository.findUserInfo(id).getIsModerator() == 0) {
+        User user = authService.getCurrentUser().orElseThrow();
+        if (user.getIsModerator() == 0) {
             authCheckResponse.setSuccess(false);
         } else if (decision.equals("accept")) {
             postRepository.changeStatus("ACCEPTED", postId);
