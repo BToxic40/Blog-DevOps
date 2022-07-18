@@ -1,7 +1,6 @@
 package ru.learn.learnSpring.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.learn.learnSpring.api.dto.PostSearchParameters;
@@ -13,8 +12,6 @@ import ru.learn.learnSpring.api.response.PostListResponse;
 import ru.learn.learnSpring.api.response.PostVoteResponse;
 import ru.learn.learnSpring.api.response.singlePost.SinglePostResponse;
 import ru.learn.learnSpring.service.PostService;
-
-import java.time.LocalDateTime;
 
 
 @RestController
@@ -68,23 +65,17 @@ public class ApiPostController {
         return ResponseEntity.ok(postService.my(status, offset, limit));
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<PostListResponse> editPostById(
             @RequestBody PostListRequest postListRequest,
-            @PathVariable(value = "id") int id,
-            @DateTimeFormat LocalDateTime time) {
-        return ResponseEntity.ok(postService.edit(id, postListRequest, time));
+            @PathVariable(value = "id") int id) {
+        return ResponseEntity.ok(postService.edit(id, postListRequest));
     }
 
     @PostMapping("")
     public ResponseEntity<BaseResponse> createPost(@RequestBody NewPostRequest newPostRequest) {
         return postService.createPost(newPostRequest);
     }
-
-//    @DeleteMapping("/{id}")
-//    public void deletePost(@PathVariable(name = "id") int id) {
-//        postService.delete(id);
-//    }
 
     @PostMapping("/like")
     private ResponseEntity<PostVoteResponse> like(@RequestBody PostVoteRequest request) {

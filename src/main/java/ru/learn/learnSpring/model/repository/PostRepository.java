@@ -82,9 +82,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             "WHERE is_active=1 AND moderation_status='ACCEPTED' AND time < now() ", nativeQuery = true)
     int countPublishedPosts();
 
-    void deleteById(Optional<Post> post);
-
-    <S extends Post> void saveAndFlush(int id);
+    void saveAndFlush(int id);
 
     @Query(value = "from Post p WHERE p.time <= now() AND id = :id")
     Post findPostById(@Param("id") Integer id);
