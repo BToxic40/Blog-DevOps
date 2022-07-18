@@ -27,6 +27,7 @@ public class ModerationService {
         } else {
             authCheckResponse.setSuccess(false);
         }
+
         return authCheckResponse;
     }
 }
