@@ -5,13 +5,10 @@ import org.springframework.stereotype.Service;
 import ru.learn.learnSpring.api.response.BaseResponse;
 import ru.learn.learnSpring.model.User;
 import ru.learn.learnSpring.model.repository.PostRepository;
-import ru.learn.learnSpring.model.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class ModerationService {
-
-    private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final AuthService authService;
 
@@ -30,7 +27,6 @@ public class ModerationService {
         } else {
             authCheckResponse.setSuccess(false);
         }
-
         return authCheckResponse;
     }
 }
