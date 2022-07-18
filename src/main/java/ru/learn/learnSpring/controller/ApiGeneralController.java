@@ -25,13 +25,13 @@ public class ApiGeneralController {
     }
 
     @GetMapping("/calendar")
-    private ResponseEntity<PostCalendarResponse> calendar(
+    public ResponseEntity<PostCalendarResponse> calendar(
             @RequestParam(value = "year", defaultValue = "0") Integer years) {
         return ResponseEntity.ok(calendarService.getPosts(years));
     }
 
     @PostMapping("/moderation")
-    public BaseResponse Restore(@RequestBody ModerationRequest moderationRequest) {
-        return moderationService.decisionModeration(moderationRequest.getPostId(), moderationRequest.getDecision());
+    public ResponseEntity<BaseResponse> restore(@RequestBody ModerationRequest moderationRequest) {
+        return ResponseEntity.ok(moderationService.decisionModeration(moderationRequest.getPostId(), moderationRequest.getDecision()));
     }
 }

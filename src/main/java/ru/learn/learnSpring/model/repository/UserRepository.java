@@ -20,12 +20,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     <S extends User> List<S> saveAll(Iterable<S> iterable);
 
     @Query(value = "SELECT * FROM users where is_moderator = 1", nativeQuery = true)
-    User findUserInfo(User id);
+    int findUserInfo(User id);
 
     @Query(value = "SELECT id FROM users where email = ?1 and password = ?2", nativeQuery = true)
     List<Integer> findAuth(String email, String password);
 
     Optional<User> findById(int id);
+
 
     @Modifying
     @Transactional
