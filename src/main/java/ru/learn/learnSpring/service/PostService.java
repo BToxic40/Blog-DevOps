@@ -210,12 +210,12 @@ public class PostService {
         return convertToListPostResponse(page);
     }
 
-    public PostListResponse edit(int id, PostListRequest postListRequest, LocalDateTime time) {
+    public PostListResponse edit(int id, PostListRequest postListRequest) {
         Post post = postRepository.getOne(id);
         post.setTitle(postListRequest.getTitle());
         post.setText(postListRequest.getText());
-        post.setTime(time);
-        postRepository.saveAndFlush(id);
+        post.setTime(post.getTime());
+        postRepository.saveAndFlush(post);
         return new PostListResponse();
     }
 
