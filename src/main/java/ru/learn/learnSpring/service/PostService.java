@@ -43,7 +43,6 @@ public class PostService {
     public static final int DISLIKE_VALUE = -1;
     public static final String DATE_YYYY_MM_DD = "\\d{4}-\\d{2}-\\d{2}";
     public static final int TEXT_TO_PREVIEW = 150;
-
     private final PostRepository postRepository;
     private final PostVotesRepository postVotesRepository;
     private final TagsRepository tagsRepository;
@@ -259,7 +258,13 @@ public class PostService {
     private PostPreviewResponse convertToPostPreviewResponse(Post post) {
         PostPreviewResponse postPreviewResponse = new PostPreviewResponse();
         postPreviewResponse.setId(post.getId());
-        postPreviewResponse.setAnnounce(createAnnounce(post.getText()));
+        String annotation = post.getText();
+        while (annotation.contains(">")) {
+            int beginTag = annotation.indexOf("<");
+            int endTag = annotation.indexOf(">")+1;
+            annotation = annotation.replace(annotation.substring(beginTag, endTag), "");
+        }
+        postPreviewResponse.setAnnounce(createAnnounce(annotation));
         postPreviewResponse.setLikeCount(postVotesRepository.countVotesByPost(post.getId(), LIKE_VALUE));
         postPreviewResponse.setDislikeCount(postVotesRepository.countVotesByPost(post.getId(), DISLIKE_VALUE));
         postPreviewResponse.setUser(new UserResponse(post.getUser().getId(), post.getUser().getName()));

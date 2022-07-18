@@ -78,19 +78,19 @@ public class ApiPostController {
     }
 
     @PostMapping("/like")
-    private ResponseEntity<PostVoteResponse> like(@RequestBody PostVoteRequest request) {
+    public ResponseEntity<PostVoteResponse> like(@RequestBody PostVoteRequest request) {
 
         return ResponseEntity.ok(postService.like(request));
     }
 
     @PostMapping("/dislike")
-    private ResponseEntity<PostVoteResponse> dislike(@RequestBody PostVoteRequest request) {
+    public ResponseEntity<PostVoteResponse> dislike(@RequestBody PostVoteRequest request) {
 
         return ResponseEntity.ok(postService.dislike(request));
     }
 
     @GetMapping("/moderation")
-    private PostListResponse postByModeration(
+    public PostListResponse postByModeration(
             @RequestParam(value = "offset", defaultValue = "0") int offset,
             @RequestParam(value = "limit", defaultValue = "10") int limit,
             @RequestParam(value = "status") String status
