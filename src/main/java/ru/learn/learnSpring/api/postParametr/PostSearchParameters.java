@@ -1,4 +1,4 @@
-package ru.learn.learnSpring.api.dto;
+package ru.learn.learnSpring.api.postParametr;
 
 import lombok.Data;
 

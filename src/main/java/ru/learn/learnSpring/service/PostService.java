@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ru.learn.learnSpring.api.dto.PostSearchParameters;
+import ru.learn.learnSpring.api.postParametr.PostSearchParameters;
 import ru.learn.learnSpring.api.request.CommentRequest;
 import ru.learn.learnSpring.api.request.NewPostRequest;
 import ru.learn.learnSpring.api.request.PostListRequest;

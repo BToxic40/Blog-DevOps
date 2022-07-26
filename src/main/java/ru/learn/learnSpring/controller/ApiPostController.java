@@ -3,7 +3,7 @@ package ru.learn.learnSpring.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.learn.learnSpring.api.dto.PostSearchParameters;
+import ru.learn.learnSpring.api.postParametr.PostSearchParameters;
 import ru.learn.learnSpring.api.request.NewPostRequest;
 import ru.learn.learnSpring.api.request.PostListRequest;
 import ru.learn.learnSpring.api.request.PostVoteRequest;
